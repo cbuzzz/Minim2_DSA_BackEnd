@@ -1,0 +1,8 @@
+/* Custom CSS styles go here */
+body {
+    padding-top: 60px; /* Adjusted for fixed navbar */
+}
+
+.container {
+    margin-top: 50px;
+}
