@@ -1,23 +1,27 @@
 package edu.upc.dsa.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Item {
     int id;
     String name;
     String description;
     String type;
-    double prize;
+    double price;
     String url;
+    public static Map<String,Item> Tienda = new HashMap<>();
 
     public Item() {
     }
 
-    public Item(int id, String name, String description, String type, double prize) {
+    public Item(int id, String name, String description, String type, double price) {
         this();
         this.setId(id);
         this.setName(name);
         this.setDescription(description);
         this.setType(type);
-        this.setPrize(prize);
+        this.setPrice(price);
     }
 
     public int getId() {
@@ -36,8 +40,8 @@ public class Item {
         return type;
     }
 
-    public double getPrize() {
-        return prize;
+    public double getPrice() {
+        return price;
     }
 
     public String getUrl() {
@@ -60,8 +64,8 @@ public class Item {
         this.type=type;
     }
 
-    public void setPrize(double prize) {
-        this.prize=prize;
+    public void setPrice(double prize) {
+        this.price=price;
     }
 
     public void setUrl(String url) {
@@ -69,6 +73,6 @@ public class Item {
     }
 
     public String toString() {
-        return "Item [id="+id+", name="+name+", description="+description+", type="+type+", prize="+prize+", url="+url+"]";
+        return "Item [id="+id+", name="+name+", description="+description+", type="+type+", prize="+price+", url="+url+"]";
     }
 }
