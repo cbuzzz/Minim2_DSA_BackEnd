@@ -1,41 +1,33 @@
 package edu.upc.dsa.models;
+import edu.upc.dsa.util.RandomUtils;
 
 import java.util.List;
 import java.util.ArrayList;
 
 
 public class Player {
-    private int id;
+    private String id;
     private String username;
     private String password;
-    private String confirm_password;
+    private String telephoneNumber;
     private String email;
     private int level;
     private double coins;
     private List<Item> Inventario = new ArrayList<>();
 
     public Player() {
+        this.id = RandomUtils.getId();
     }
 
-    public Player(String username, String password, String email, int coins) {
+    public Player(String username, String password, String telephoneNumber, String email) {
         this();
         this.setUsername(username);
         this.setPassword(password);
+        this.setTelephoneNumber(telephoneNumber);
         this.setEmail(email);
-        this.setCoins(coins);
     }
 
-    public void playerRegister (String username,String password,String confirm_password,String email) {
-        this.setUsername(username);
-        this.setPassword(password);
-        this.setConfirm_password(confirm_password);
-        this.setEmail(email);
-        this.setCoins(0);
-        this.setLevel(1);
-    }
-
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -47,8 +39,8 @@ public class Player {
         return password;
     }
 
-    public String getConfirm_password() {
-        return confirm_password;
+    public String getTelephoneNumber() {
+        return telephoneNumber;
     }
 
     public String getEmail() {
@@ -63,8 +55,8 @@ public class Player {
         return coins;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id=id;
     }
 
     public void setUsername(String username) {
@@ -75,8 +67,8 @@ public class Player {
         this.password=password;
     }
 
-    public void setConfirm_password(String confirm_password) {
-        this.confirm_password=confirm_password;
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber=telephoneNumber;
     }
 
     public void setEmail(String email) {

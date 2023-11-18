@@ -2,6 +2,7 @@ package edu.upc.dsa.models;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Item {
     int id;
@@ -13,6 +14,7 @@ public class Item {
     public static Map<String,Item> Tienda = new HashMap<>();
 
     public Item() {
+        this.id = new Random().nextInt();
     }
 
     public Item(int id, String name, String description, String type, double price) {
@@ -51,7 +53,6 @@ public class Item {
     public void setId(int id) {
         this.id=id;
     }
-
     public void setName(String name) {
         this.name=name;
     }
