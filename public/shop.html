@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <!-- Head content as in the previous example -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+
 </head>
 <body>
 <div class="container">
@@ -10,8 +12,36 @@
     <a href="login.html" class="btn btn-primary">Login</a>
     <a href="register.html" class="btn btn-secondary">Register</a>
 </div>
+<div id="registrationForm">
+    <h2>User identification</h2>
+    <form>
+        <label for="userID">User ID:</label>
+        <input type="text" id="userID" name="userID" required>
+        <br>
+        <button type="submit">Identify</button>
+    </form>
+</div>
+<section>
+    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
+        <h2>Item 1</h2>
+        <img src="https://static.carrefour.es/crs/cdn-static/promo-content/Carrefour/contenidos/bricolaje/consejo-linternas-2.jpg" alt="Escape Room Item 1">
+        <p>May it be a light for you in dark places, when all other lights go out.</p>
+
+    </div>
+
+
+    <!-- Repeat similar blocks for other items -->
+
+</section>
+
 
 <!-- jQuery and Bootstrap JS -->
 <!-- Script tags as in the previous example -->
+
+<script>
+    function purchaseItem(userID, productName) {
+        alert(`Purchase successful!\nUser ID: ${userID}\nProduct: ${productName}`);
+    }
+</script>
 </body>
 </html>

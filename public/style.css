@@ -1,7 +1,21 @@
 /* Custom CSS styles go here */
 body {
-    padding-top: 60px; /* Adjusted for fixed navbar */
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4; /* Adjust the background color as needed */
+        }
+
+        /* Additional styles for your content */
+        .content {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
 .container {
     margin-top: 50px;

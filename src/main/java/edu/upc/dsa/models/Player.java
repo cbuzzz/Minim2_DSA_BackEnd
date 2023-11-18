@@ -1,5 +1,9 @@
 package edu.upc.dsa.models;
 
+import java.util.List;
+import java.util.ArrayList;
+
+
 public class Player {
     private int id;
     private String username;
@@ -7,7 +11,8 @@ public class Player {
     private String confirm_password;
     private String email;
     private int level;
-    private int coins;
+    private double coins;
+    private List<Item> Inventario = new ArrayList<>();
 
     public Player() {
     }
@@ -28,6 +33,7 @@ public class Player {
         this.setCoins(0);
         this.setLevel(1);
     }
+
 
     public int getId() {
         return id;
@@ -53,7 +59,7 @@ public class Player {
         return level;
     }
 
-    public int getCoins() {
+    public double getCoins() {
         return coins;
     }
 
@@ -81,7 +87,15 @@ public class Player {
         this.level=level;
     }
 
-    public void setCoins(int coins) {
+    public void setCoins(double coins) {
         this.coins=coins;
+    }
+
+    public List<Item> getInventario() {
+        return Inventario;
+    }
+
+    public void setInventario(List<Item> inventario) {
+        Inventario = inventario;
     }
 }
