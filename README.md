@@ -7,7 +7,7 @@ Este repositorio contiene el código del frontend y backend del juego del grupo 
 - Andrei Piposi - andrei.piposi@estudiantat.upc.edu
 - Mario Martínez - 
 - Carles Martín - 
-- Sebas -
+- Sebastián Pineda - sebastian.pineda@estudiantat.upc.edu
 
 ## Features
 
