@@ -2,33 +2,38 @@
 <html lang="en">
 <head>
     <!-- Head content as in the previous example -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+
 </head>
 <body>
 <div class="container">
-    <h1>Register</h1>
+    <div class="loginregister-container">
+
+        <h1 class="loginregister-title">Register</h1>
     <!-- Simple registration form -->
     <form>
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom: 10px;">
             <label for="username">Username:</label>
             <input type="text" class="form-control" id="username" placeholder="Choose a username">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom: 10px;">
             <label for="email">Email:</label>
             <input type="email" class="form-control" id="email" placeholder="Enter your email">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom: 10px;">
             <label for="password">Password:</label>
             <input type="password" class="form-control" id="password" placeholder="Choose a password">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom: 10px;">
             <label for="confirmPassword">Confirm Password:</label>
             <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password" required>
         </div>
         <button type="submit" class="btn btn-primary">Register</button>
     </form>
     <br>
-    <a href="login.html" class="btn btn-secondary">Login</a>
-    <a href="shop.html" class="btn btn-success">Shop</a>
+    <a href="login.html" class="btn custom-btn">Login</a>
+    <a href="shop.html" class="btn custom-btn">Shop</a>
+    </div>
 </div>
 
 <!-- jQuery and Bootstrap JS -->
