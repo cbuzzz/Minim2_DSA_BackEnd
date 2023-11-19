@@ -1,0 +1,226 @@
+Index: public/style.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/* Custom CSS styles go here */\r\nbody {\r\n            display: flex;\r\n            align-items: center;\r\n            justify-content: center;\r\n            height: 100vh;\r\n            margin: 0;\r\n            background-color: #f4f4f4; /* Adjust the background color as needed */\r\n        }\r\n\r\n        /* Additional styles for your content */\r\n        .content {\r\n            text-align: center;\r\n            padding: 20px;\r\n            background-color: white;\r\n            border-radius: 8px;\r\n            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\r\n        }\r\n\r\n.container {\r\n    margin-top: 50px;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/public/style.css b/public/style.css
+--- a/public/style.css	(revision de12f393f7e881f909c21d6415d5d6004279b291)
++++ b/public/style.css	(date 1700294297831)
+@@ -4,10 +4,9 @@
+             align-items: center;
+             justify-content: center;
+             height: 100vh;
+-            margin: 0;
++            margin: auto;
+             background-color: #f4f4f4; /* Adjust the background color as needed */
+-        }
+-
++}
+         /* Additional styles for your content */
+         .content {
+             text-align: center;
+@@ -16,7 +15,14 @@
+             border-radius: 8px;
+             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         }
++}
+ 
+ .container {
+     margin-top: 50px;
+ }
++.mycontainer {
++  display: flex;
++}
++.mycontainer > div {
++  width:33%;
++}
+\ No newline at end of file
+Index: public/shop.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <!-- Head content as in the previous example -->\r\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\r\n\r\n</head>\r\n<body>\r\n<div class=\"container\">\r\n    <h1>Shop</h1>\r\n    <p>This is the shop page. Add your shop content and products here.</p>\r\n    <a href=\"login.html\" class=\"btn btn-primary\">Login</a>\r\n    <a href=\"register.html\" class=\"btn btn-secondary\">Register</a>\r\n</div>\r\n<div id=\"registrationForm\">\r\n    <h2>User identification</h2>\r\n    <form>\r\n        <label for=\"userID\">User ID:</label>\r\n        <input type=\"text\" id=\"userID\" name=\"userID\" required>\r\n        <br>\r\n        <button type=\"submit\">Identify</button>\r\n    </form>\r\n</div>\r\n<section>\r\n    <div class=\"escape-room-item\" onclick=\"purchaseItem('User123', 'Item 1')\">\r\n        <h2>Item 1</h2>\r\n        <img src=\"https://static.carrefour.es/crs/cdn-static/promo-content/Carrefour/contenidos/bricolaje/consejo-linternas-2.jpg\" alt=\"Escape Room Item 1\">\r\n        <p>May it be a light for you in dark places, when all other lights go out.</p>\r\n\r\n    </div>\r\n\r\n\r\n    <!-- Repeat similar blocks for other items -->\r\n\r\n</section>\r\n\r\n\r\n<!-- jQuery and Bootstrap JS -->\r\n<!-- Script tags as in the previous example -->\r\n\r\n<script>\r\n    function purchaseItem(userID, productName) {\r\n        alert(`Purchase successful!\\nUser ID: ${userID}\\nProduct: ${productName}`);\r\n    }\r\n</script>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/public/shop.html b/public/shop.html
+--- a/public/shop.html	(revision de12f393f7e881f909c21d6415d5d6004279b291)
++++ b/public/shop.html	(date 1700299669521)
+@@ -3,17 +3,47 @@
+ <head>
+     <!-- Head content as in the previous example -->
+     <link rel="stylesheet" type="text/css" href="style.css">
++    <style>
++        body {
++            text-align: center;
++        }
++
++        div.escape-room-item {
++            width: 30%;
++            display: inline-block;
++            vertical-align: top; /* Alinear los elementos en la parte superior */
++            margin: 10px;
++        }
+ 
++        .escape-room-item {
++            background-color: #fff;
++            padding: 10px;
++            border-radius: 8px;
++            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
++            text-align: center;
++        }
++
++        h2, p {
++            margin: 1px 0;
++        }
++
++        img {
++            max-width: 50%;
++            height: auto;
++            border-radius: 8px;
++        }
++    </style>
+ </head>
+ <body>
++
+ <div class="container">
+     <h1>Shop</h1>
+     <p>This is the shop page. Add your shop content and products here.</p>
+     <a href="login.html" class="btn btn-primary">Login</a>
+     <a href="register.html" class="btn btn-secondary">Register</a>
+-</div>
++
+ <div id="registrationForm">
+-    <h2>User identification</h2>
++    <h1>User identification</h1>
+     <form>
+         <label for="userID">User ID:</label>
+         <input type="text" id="userID" name="userID" required>
+@@ -21,18 +51,43 @@
+         <button type="submit">Identify</button>
+     </form>
+ </div>
+-<section>
+     <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
+-        <h2>Item 1</h2>
++        <h2>Flashlight</h2>
+         <img src="https://static.carrefour.es/crs/cdn-static/promo-content/Carrefour/contenidos/bricolaje/consejo-linternas-2.jpg" alt="Escape Room Item 1">
+-        <p>May it be a light for you in dark places, when all other lights go out.</p>
+-
++        <p>"May it be a light for you in dark places, when all other lights go out."</p>
++    </div>
++    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
++        <h2>Secret key</h2>
++        <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQl0BaK1HcOHmEYrdp_95-SiTv3WV8B2MnMKcVKGPrBh9aOjorN" alt="Escape Room Item 1">
++        <p>"Alohomora"</p>
++    </div>
++    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
++        <h2>The horn</h2>
++        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhG1shkfljf_rc-_BJlo-KRW5qnHYjwS5VAFP9ZCLCennPz_2XliqmoFPc94ghzv3zLqUTFoCGC2pKd-A23yvFjGn1nH5Si4ZpWuy_Wi-SXl4kDlIMDmcWxkyWGMOxJLL6HopB3H89oXPbOhNQ6CFB6mhMYa_Y6j4D5-B_L6jiPAVO0j6CiO2H0dijOe5Qi/s1024/_s58BjyF__upscaled.jpg" alt="Escape Room Item 1">
++        <p>"Run, you little fools"</p>
++    </div>
++    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
++        <h2>Strength potion</h2>
++        <img src="https://cdn.midjourney.com/033d53d9-ec09-4b75-ab45-aaf9c456c1ff/grid_0_640_N.webp" alt="Escape Room Item 1">
++        <p>"The Force is strong with this one."</p>
++    </div>
++    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
++        <h2>Speed potion</h2>
++        <img src="https://cdn.midjourney.com/2dc2e25a-475e-493c-a9db-088d22b1c4de/grid_0_640_N.webp" alt="Escape Room Item 1">
++        <p>"May it be a light for you in dark places, when all other lights go out."</p>
++    </div>
++    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
++        <h2>Health potion</h2>
++        <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSZMPQ2DWhr7ce7unBwlXTNJddc4BRyBvZQccd8gjB4vj-zDhmP" alt="Escape Room Item 1">
++        <p>"May it be a light for you in dark places, when all other lights go out."</p>
+     </div>
+ 
++</div>
++
++
+ 
+-    <!-- Repeat similar blocks for other items -->
++<!-- Repeat similar blocks for other items -->
+ 
+-</section>
+ 
+ 
+ <!-- jQuery and Bootstrap JS -->
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"c81be3c7-98a2-43e5-a4e4-4315a77ee2f1\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManger.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/public/register.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/public/register.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/public/shop.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/public/shop.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/public/style.css\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/public/style.css\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Item.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Item.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"HTML File\" />\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 3\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2YDu7pBbnO7uCdEoP92fQEkJh1F\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"DefaultHtmlFileTemplate\": \"HTML File\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"last_opened_file_path\": \"C:/Users/charl/Desktop/DSA/Iteració_1\",\r\n    \"settings.editor.selected.configurable\": \"editor.preferences.tabs\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\EETAC\\3A\\DSA\\Projecte_DSA_G2_BackEnd\\.idea\" />\r\n      <recent name=\"D:\\EETAC\\3A\\DSA\\Projecte_DSA_G2_BackEnd\\src\\main\\java\" />\r\n      <recent name=\"D:\\EETAC\\3A\\DSA\\Projecte_DSA_G2_BackEnd\\public\\swagger\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\charl\\Desktop\\DSA\\Iteració_1\\src\\main\\java\\edu\\upc\\dsa\\exceptions\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"c81be3c7-98a2-43e5-a4e4-4315a77ee2f1\" name=\"Changes\" comment=\"\" />\r\n      <created>1700072308252</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1700072308252</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"-Clase PlayerManagerImpl con funciones de Login, Register y comprar un Item. En proceso la creación de la pagina web html de la tienda, mañana acabada.\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"-Clase PlayerManagerImpl con funciones de Login, Register y comprar un Item. En proceso la creación de la pagina web html de la tienda, mañana acabada.\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision de12f393f7e881f909c21d6415d5d6004279b291)
++++ b/.idea/workspace.xml	(date 1700252575483)
+@@ -4,16 +4,10 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="c81be3c7-98a2-43e5-a4e4-4315a77ee2f1" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManger.java" afterDir="false" />
++    <list default="true" id="c81be3c7-98a2-43e5-a4e4-4315a77ee2f1" name="Changes" comment="-Funciones Login,Register, comprarItem. &#10;-tienda.html en proceso">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/public/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/register.html" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/public/shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/shop.html" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/public/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/style.css" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Item.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -43,16 +37,16 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "DefaultHtmlFileTemplate": "HTML File",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "master",
+-    "last_opened_file_path": "C:/Users/charl/Desktop/DSA/Iteració_1",
+-    "settings.editor.selected.configurable": "editor.preferences.tabs"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/charl/Desktop/DSA/Iteració_1&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="D:\EETAC\3A\DSA\Projecte_DSA_G2_BackEnd\.idea" />
+@@ -72,10 +66,20 @@
+       <option name="presentableId" value="Default" />
+       <updated>1700072308252</updated>
+     </task>
++    <task id="LOCAL-00001" summary="-Funciones Login,Register, comprarItem. &#10;-tienda.html en proceso">
++      <option name="closed" value="true" />
++      <created>1700244968350</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1700244968350</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="-Clase PlayerManagerImpl con funciones de Login, Register y comprar un Item. En proceso la creación de la pagina web html de la tienda, mañana acabada." />
+-    <option name="LAST_COMMIT_MESSAGE" value="-Clase PlayerManagerImpl con funciones de Login, Register y comprar un Item. En proceso la creación de la pagina web html de la tienda, mañana acabada." />
++    <MESSAGE value="-Funciones Login,Register, comprarItem. &#10;-tienda.html en proceso" />
++    <option name="LAST_COMMIT_MESSAGE" value="-Funciones Login,Register, comprarItem. &#10;-tienda.html en proceso" />
+   </component>
+ </project>
+\ No newline at end of file
