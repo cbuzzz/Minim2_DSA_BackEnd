@@ -77,7 +77,7 @@ public class PlayerService{
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePlayer(Player p) throws PlayerNoEncontrado {
-        Player p1 = this.pm.putPlayer(p);
+        Player p1 = this.pm.updatePlayer(p);
         if (p1 == null) return Response.status(404).build();
         else  return Response.status(201).entity(p1).build();
     }

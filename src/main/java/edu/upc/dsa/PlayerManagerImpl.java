@@ -86,7 +86,7 @@ public class PlayerManagerImpl implements PlayerManager {
 
     //Put a player
     @Override
-    public Player putPlayer(Player p) throws PlayerNoEncontrado {
+    public Player updatePlayer(Player p) throws PlayerNoEncontrado {
         Player p1 = this.getPlayer(p.getId());
         if (p1!=null) {
             logger.info(p + " received!");

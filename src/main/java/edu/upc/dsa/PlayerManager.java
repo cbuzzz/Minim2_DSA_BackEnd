@@ -18,7 +18,7 @@ public interface PlayerManager {
 
     public Player addPlayer(String username, String password, String telephone, String email) throws PlayerYaExiste, PlayerNoEncontrado;
 
-    public Player putPlayer(Player p) throws PlayerNoEncontrado;
+    public Player updatePlayer(Player p) throws PlayerNoEncontrado;
 
     Player searchPlayerUsernameAndPassword(String username, String password) throws PlayerNoEncontrado;
 
