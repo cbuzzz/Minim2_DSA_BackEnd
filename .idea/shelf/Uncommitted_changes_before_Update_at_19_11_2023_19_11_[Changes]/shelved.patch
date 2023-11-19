@@ -1,0 +1,230 @@
+Index: src/main/java/edu/upc/dsa/PlayerManagerImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.upc.dsa;\r\n\r\nimport edu.upc.dsa.exceptions.*;\r\n\r\nimport java.util.List;\r\nimport java.util.LinkedList;\r\n\r\nimport edu.upc.dsa.models.Item;\r\nimport edu.upc.dsa.models.Login;\r\nimport edu.upc.dsa.models.Register;\r\nimport edu.upc.dsa.models.Player;\r\nimport edu.upc.dsa.PlayerManager;\r\nimport org.apache.log4j.Logger;\r\n\r\npublic class PlayerManagerImpl implements PlayerManager {\r\n\r\n    private static PlayerManager instance;\r\n    final static Logger logger = Logger.getLogger(PlayerManagerImpl.class);\r\n    protected List<Player> players;\r\n\r\n    public static PlayerManager getInstance() {\r\n        if (instance==null)\r\n            instance = new PlayerManagerImpl();\r\n        return instance;\r\n    }\r\n\r\n    public int size() {\r\n        int ret = this.players.size();\r\n        logger.info(\"size \" + ret);\r\n        return ret;\r\n    }\r\n\r\n    public PlayerManagerImpl() {\r\n        this.players = new LinkedList<>();\r\n    }\r\n\r\n    //Search a player by username and password\r\n    @Override\r\n    public Player searchPlayerUsernameAndPassword(String username, String password) {\r\n        logger.info(\"getPlayer(\"+username+\",\"+password+\")\");\r\n        for (Player p: this.players) {\r\n            if (p.getUsername().equals(username) && p.getPassword().equals(password)) {\r\n                logger.info(\"getPlayer(\"+username+\",\"+password+\"): \"+p);\r\n                return p;\r\n            }\r\n        }\r\n        logger.warn(\"not found \" + username + \" \" + password);\r\n        return null;\r\n    }\r\n\r\n    //Find all the players\r\n    @Override\r\n    public List<Player> findAll() {\r\n        return this.players;\r\n    }\r\n\r\n    //Get a player by id\r\n    @Override\r\n    public Player getPlayer(String id) throws PlayerNoEncontrado {\r\n        logger.info(\"getPlayer(\"+id+\")\");\r\n        for (Player p: this.players) {\r\n            if (p.getId().equals(id)) {\r\n                logger.info(\"getPlayer(\"+id+\"): \"+p);\r\n                return p;\r\n            }\r\n        }\r\n        logger.warn(\"not found \" + id);\r\n        throw new PlayerNoEncontrado();\r\n    }\r\n\r\n    //Add a player to the list\r\n    @Override\r\n    public Player addPlayer(String username, String password, String telephone, String email) throws PlayerNoEncontrado {\r\n        Player p = searchPlayerUsernameAndPassword(username, password);\r\n        if (p==null) {\r\n            logger.info(\"new player \" + username + \" \" + password);\r\n            p = new Player(username, password, telephone, email);\r\n            this.players.add ( p );\r\n            return p;\r\n        }\r\n        else {\r\n            logger.warn(\"Player already exists\");\r\n            return null;\r\n        }\r\n    }\r\n\r\n    //Put a player\r\n    @Override\r\n    public Player putPlayer(Player p) throws PlayerNoEncontrado {\r\n        Player p1 = this.getPlayer(p.getId());\r\n        if (p1!=null) {\r\n            logger.info(p + \" received!\");\r\n            p1.setUsername(p.getUsername());\r\n            p1.setPassword(p.getPassword());\r\n            logger.info(p1 + \" updated!\");\r\n        }\r\n        else {\r\n            logger.warn(\"not found \" + p.getId());\r\n            throw new PlayerNoEncontrado();\r\n        }\r\n        return p1;\r\n    }\r\n\r\n    //Register a player\r\n    @Override\r\n    public Player registerPlayer(Register r) {\r\n        Player p = searchPlayerUsernameAndPassword(r.getUsername(), r.getPassword());\r\n        if (p==null) {\r\n            logger.info(\"new player \" + r.getUsername() + \" \" + r.getPassword());\r\n            p = new Player(r.getUsername(), r.getPassword(), r.getTelephoneNumber(), r.getEmail());\r\n            this.players.add ( p );\r\n            return p;\r\n        }\r\n        else {\r\n            logger.warn(\"Player already exists\");\r\n            return null;\r\n        }\r\n    }\r\n\r\n    //Login a player\r\n    @Override\r\n    public Player loginPlayer(Login l)  {\r\n        logger.info(\"loginPlayer(\"+l.getUsername()+\",\"+l.getPassword()+\")\");\r\n        Player p = searchPlayerUsernameAndPassword(l.getUsername(), l.getPassword());\r\n        if (p!=null) {\r\n            logger.info(\"loginPlayer(\"+l.getUsername()+\",\"+l.getPassword()+\"): \"+p);\r\n            return p;\r\n        }\r\n        else {\r\n            logger.warn(\"not found \" + l.getUsername() + \" \" + l.getPassword());\r\n            return null;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/edu/upc/dsa/PlayerManagerImpl.java b/src/main/java/edu/upc/dsa/PlayerManagerImpl.java
+--- a/src/main/java/edu/upc/dsa/PlayerManagerImpl.java	(revision 4d46187cb117ee122c941b353ea65ac3ca664ffd)
++++ b/src/main/java/edu/upc/dsa/PlayerManagerImpl.java	(date 1700411698868)
+@@ -84,9 +84,9 @@
+         }
+     }
+ 
+-    //Put a player
++    //Update a player
+     @Override
+-    public Player putPlayer(Player p) throws PlayerNoEncontrado {
++    public Player updatePlayer(Player p) throws PlayerNoEncontrado {
+         Player p1 = this.getPlayer(p.getId());
+         if (p1!=null) {
+             logger.info(p + " received!");
+@@ -131,4 +131,9 @@
+             return null;
+         }
+     }
++
++    //Delete a player
++
++
++
+ }
+Index: src/test/java/edu/upc/dsa/PlayerManagerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.upc.dsa;\r\nimport edu.upc.dsa.PlayerManager;\r\nimport edu.upc.dsa.PlayerManagerImpl;\r\nimport edu.upc.dsa.exceptions.PlayerNoEncontrado;\r\nimport edu.upc.dsa.exceptions.PlayerYaExiste;\r\nimport edu.upc.dsa.models.Player;\r\nimport org.junit.After;\r\nimport org.junit.Assert;\r\nimport org.junit.Before;\r\nimport org.junit.Test;\r\nimport java.util.List;\r\n\r\npublic class PlayerManagerTest {\r\n    PlayerManager pm;\r\n\r\n    @Before\r\n    public void setUp() throws PlayerNoEncontrado, PlayerYaExiste {\r\n        pm = (PlayerManager) new PlayerManagerImpl();\r\n        pm.addPlayer(\"Pablito\",\"2345\",\"680739345\",\"pab@gmail.com\");\r\n        pm.addPlayer(\"Juanito\",\"1234\",\"680156796\",\"juas@gmail.com\");\r\n        pm.addPlayer(\"Pepito\",\"3456\",\"611212117\",\"pep@yahoo.es\");\r\n    }\r\n\r\n    @After\r\n    public void tearDown() {\r\n        pm = null;\r\n    }\r\n\r\n    @Test\r\n    public void testAddPlayer() throws PlayerYaExiste, PlayerNoEncontrado {\r\n        List<Player> players = pm.findAll();\r\n\r\n\r\n        Assert.assertEquals(\"Pablito\", players.get(0).getUsername());\r\n        Assert.assertEquals(\"2345\", players.get(0).getPassword());\r\n\r\n        Assert.assertEquals(\"Juanito\", players.get(1).getUsername());\r\n        Assert.assertEquals(\"1234\", players.get(1).getPassword());\r\n\r\n        Assert.assertEquals(\"Pepito\", players.get(2).getUsername());\r\n        Assert.assertEquals(\"3456\", players.get(2).getPassword());\r\n    }\r\n\r\n    @Test\r\n    public void testUpdatePlayer() throws PlayerNoEncontrado {\r\n        List<Player> players = pm.findAll();\r\n        Player p = players.get(1);\r\n        p.setPassword(\"2333\");\r\n        Player p2 = pm.putPlayer(p);\r\n\r\n        Assert.assertEquals(p2.getUsername(),pm.findAll().get(1).getUsername());\r\n        Assert.assertEquals(p2.getPassword(),pm.findAll().get(1).getPassword());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/edu/upc/dsa/PlayerManagerTest.java b/src/test/java/edu/upc/dsa/PlayerManagerTest.java
+--- a/src/test/java/edu/upc/dsa/PlayerManagerTest.java	(revision 4d46187cb117ee122c941b353ea65ac3ca664ffd)
++++ b/src/test/java/edu/upc/dsa/PlayerManagerTest.java	(date 1700411699215)
+@@ -46,7 +46,7 @@
+         List<Player> players = pm.findAll();
+         Player p = players.get(1);
+         p.setPassword("2333");
+-        Player p2 = pm.putPlayer(p);
++        Player p2 = pm.updatePlayer(p);
+ 
+         Assert.assertEquals(p2.getUsername(),pm.findAll().get(1).getUsername());
+         Assert.assertEquals(p2.getPassword(),pm.findAll().get(1).getPassword());
+Index: src/main/java/edu/upc/dsa/services/PlayerService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.upc.dsa.services;\r\n\r\nimport edu.upc.dsa.PlayerManagerImpl;\r\nimport edu.upc.dsa.PlayerManager;\r\nimport edu.upc.dsa.exceptions.PlayerNoEncontrado;\r\nimport edu.upc.dsa.exceptions.PlayerYaExiste;\r\nimport edu.upc.dsa.models.Player;\r\nimport edu.upc.dsa.models.Login;\r\nimport edu.upc.dsa.models.Register;\r\nimport io.swagger.annotations.Api;\r\nimport io.swagger.annotations.ApiOperation;\r\nimport io.swagger.annotations.ApiResponse;\r\nimport io.swagger.annotations.ApiResponses;\r\nimport org.apache.log4j.Logger;\r\n\r\nimport javax.ws.rs.*;\r\nimport javax.ws.rs.core.GenericEntity;\r\nimport javax.ws.rs.core.MediaType;\r\nimport javax.ws.rs.core.Response;\r\nimport java.util.List;\r\n\r\n\r\n@Api(value = \"/player\", description = \"Endpoint to Player Service\")\r\n@Path(\"/player\")\r\n\r\npublic class PlayerService{\r\n\r\n    private PlayerManager pm;\r\n\r\n    final static Logger logger = Logger.getLogger(PlayerService.class);\r\n\r\n    public PlayerService() throws PlayerNoEncontrado, PlayerYaExiste {\r\n        this.pm = PlayerManagerImpl.getInstance();\r\n        if (pm.size()==0) {\r\n            pm.addPlayer(\"Pablito\",\"2345\",\"680739345\",\"pab@gmail.com\");\r\n            pm.addPlayer(\"Juanito\",\"1234\",\"680156796\",\"juas@gmail.com\");\r\n            pm.addPlayer(\"Pepito\",\"3456\",\"611212117\",\"pep@yahoo.es\");\r\n        }\r\n    }\r\n\r\n    //Get all the players\r\n    @GET\r\n    @ApiOperation(value = \"get all players\", notes = \"asdasd\")\r\n    @ApiResponses(value = {\r\n            @ApiResponse(code = 201, message = \"Successful\", response = Player.class, responseContainer=\"List\"),\r\n    })\r\n    @Path(\"/\")\r\n    @Produces(MediaType.APPLICATION_JSON)\r\n    public Response getPlayers() {\r\n        List<Player> players = this.pm.findAll();\r\n        GenericEntity<List<Player>> entity = new GenericEntity<List<Player>>(players) {};\r\n        return Response.status(201).entity(entity).build();\r\n    }\r\n\r\n    //Get a player by id\r\n    @GET\r\n    @ApiOperation(value = \"get player\", notes = \"asdasd\")\r\n    @ApiResponses(value = {\r\n            @ApiResponse(code = 201, message = \"Successful\", response = Player.class),\r\n            @ApiResponse(code = 404, message = \"Player not found\")\r\n    })\r\n    @Path(\"/{id}\")\r\n    @Produces(MediaType.APPLICATION_JSON)\r\n    public Response getPlayer(@PathParam(\"id\") String id) throws PlayerNoEncontrado {\r\n        Player p = this.pm.getPlayer(id);\r\n        if (p == null) return Response.status(404).build();\r\n        else  return Response.status(201).entity(p).build();\r\n    }\r\n\r\n    //Update a player using putPlayer method\r\n    @PUT\r\n    @ApiOperation(value = \"update player\", notes = \"asdasd\")\r\n    @ApiResponses(value = {\r\n            @ApiResponse(code = 201, message = \"Successful\", response = Player.class),\r\n            @ApiResponse(code = 404, message = \"Player not found\")\r\n    })\r\n    @Path(\"/\")\r\n    @Consumes(MediaType.APPLICATION_JSON)\r\n    public Response updatePlayer(Player p) throws PlayerNoEncontrado {\r\n        Player p1 = this.pm.putPlayer(p);\r\n        if (p1 == null) return Response.status(404).build();\r\n        else  return Response.status(201).entity(p1).build();\r\n    }\r\n\r\n    //Register a player\r\n    @POST\r\n    @ApiOperation(value = \"register a new player\", notes = \"asdasd\")\r\n    @ApiResponses(value = {\r\n            @ApiResponse(code = 201, message = \"Successful\", response=Player.class),\r\n            @ApiResponse(code = 500, message = \"Validation Error\")\r\n    })\r\n    @Path(\"/register\")\r\n    @Consumes(MediaType.APPLICATION_JSON)\r\n    public Response newPlayer(Register r) {\r\n       if(r.getUsername()==null || r.getPassword()==null || r.getTelephoneNumber()==null || r.getEmail()==null) {\r\n           return Response.status(500).build();\r\n       }\r\n       else {\r\n           try {\r\n               Player p = this.pm.registerPlayer(r);\r\n               return Response.status(201).entity(p).build();\r\n           } catch (PlayerYaExiste playerYaExiste) {\r\n               return Response.status(500).build();\r\n           }\r\n       }\r\n    }\r\n\r\n    //Login a player\r\n    @POST\r\n    @ApiOperation(value = \"login a player\", notes = \"asdasd\")\r\n    @ApiResponses(value = {\r\n            @ApiResponse(code = 201, message = \"Successful\", response=Player.class),\r\n            @ApiResponse(code = 404, message = \"Player not found\"),\r\n            @ApiResponse(code = 500, message = \"Validation Error\")\r\n    })\r\n    @Path(\"/login\")\r\n    @Consumes(MediaType.APPLICATION_JSON)\r\n    public Response loginPlayer(Login l) throws PlayerNoEncontrado {\r\n        Player p = this.pm.loginPlayer(l);\r\n        if (p == null) return Response.status(404).build();\r\n        else  return Response.status(201).entity(p).build();\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/edu/upc/dsa/services/PlayerService.java b/src/main/java/edu/upc/dsa/services/PlayerService.java
+--- a/src/main/java/edu/upc/dsa/services/PlayerService.java	(revision 4d46187cb117ee122c941b353ea65ac3ca664ffd)
++++ b/src/main/java/edu/upc/dsa/services/PlayerService.java	(date 1700411699175)
+@@ -67,7 +67,7 @@
+         else  return Response.status(201).entity(p).build();
+     }
+ 
+-    //Update a player using putPlayer method
++    //Update a player using updatePlayer method
+     @PUT
+     @ApiOperation(value = "update player", notes = "asdasd")
+     @ApiResponses(value = {
+@@ -77,7 +77,7 @@
+     @Path("/")
+     @Consumes(MediaType.APPLICATION_JSON)
+     public Response updatePlayer(Player p) throws PlayerNoEncontrado {
+-        Player p1 = this.pm.putPlayer(p);
++        Player p1 = this.pm.updatePlayer(p);
+         if (p1 == null) return Response.status(404).build();
+         else  return Response.status(201).entity(p1).build();
+     }
+Index: src/main/java/edu/upc/dsa/PlayerManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.upc.dsa;\r\n\r\nimport edu.upc.dsa.exceptions.*;\r\nimport edu.upc.dsa.models.Player;\r\nimport edu.upc.dsa.models.Login;\r\nimport edu.upc.dsa.models.Register;\r\nimport java.util.List;\r\n\r\npublic interface PlayerManager {\r\n\r\n    public List<Player> findAll();\r\n\r\n    public Player getPlayer(String id) throws PlayerNoEncontrado;\r\n\r\n    public Player registerPlayer(Register r) throws PlayerYaExiste;\r\n\r\n    public Player loginPlayer(Login l) throws PlayerNoEncontrado;\r\n\r\n    public Player addPlayer(String username, String password, String telephone, String email) throws PlayerYaExiste, PlayerNoEncontrado;\r\n\r\n    public Player putPlayer(Player p) throws PlayerNoEncontrado;\r\n\r\n    Player searchPlayerUsernameAndPassword(String username, String password) throws PlayerNoEncontrado;\r\n\r\n    public int size();\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/edu/upc/dsa/PlayerManager.java b/src/main/java/edu/upc/dsa/PlayerManager.java
+--- a/src/main/java/edu/upc/dsa/PlayerManager.java	(revision 4d46187cb117ee122c941b353ea65ac3ca664ffd)
++++ b/src/main/java/edu/upc/dsa/PlayerManager.java	(date 1700411698734)
+@@ -18,7 +18,7 @@
+ 
+     public Player addPlayer(String username, String password, String telephone, String email) throws PlayerYaExiste, PlayerNoEncontrado;
+ 
+-    public Player putPlayer(Player p) throws PlayerNoEncontrado;
++    public Player updatePlayer(Player p) throws PlayerNoEncontrado;
+ 
+     Player searchPlayerUsernameAndPassword(String username, String password) throws PlayerNoEncontrado;
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"c81be3c7-98a2-43e5-a4e4-4315a77ee2f1\" name=\"Changes\" comment=\"Four Commit\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/Main.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManager.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManager.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManagerImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManagerImpl.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManger.java\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/exceptions/ContraseñaIncorrecta.java\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Item.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Item.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Register.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Register.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/log4j.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/log4j.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/edu/upc/dsa/PlayerManagerTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/edu/upc/dsa/PlayerManagerTest.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"HTML File\" />\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;andreiipipoo&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">\r\n    <option name=\"selectedUrlAndAccountId\">\r\n      <UrlAndAccount>\r\n        <option name=\"accountId\" value=\"15ab8660-a9c8-4392-890c-58b57c92a6c3\" />\r\n        <option name=\"url\" value=\"https://github.com/andreiipipoo/Projecte_DSA_G2_BackEnd.git\" />\r\n      </UrlAndAccount>\r\n    </option>\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 3\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2YDu7pBbnO7uCdEoP92fQEkJh1F\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"DefaultHtmlFileTemplate\": \"HTML File\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"last_opened_file_path\": \"C:/Users/charl/Desktop/DSA/Iteració_1\",\r\n    \"settings.editor.selected.configurable\": \"reference.settings.project.maven.repository.indices\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\EETAC\\3A\\DSA\\Projecte_DSA_G2_BackEnd\\.idea\" />\r\n      <recent name=\"D:\\EETAC\\3A\\DSA\\Projecte_DSA_G2_BackEnd\\src\\main\\java\" />\r\n      <recent name=\"D:\\EETAC\\3A\\DSA\\Projecte_DSA_G2_BackEnd\\public\\swagger\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\charl\\Desktop\\DSA\\Iteració_1\\src\\main\\java\\edu\\upc\\dsa\\exceptions\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"PlayerManagerTest.testAddPlayer\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Projecte_DSA_G2_BackEnd\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"edu.upc.dsa.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"edu.upc.dsa\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"edu.upc.dsa.PlayerManagerTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testAddPlayer\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"PlayerManagerTest.testPutPlayer\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Projecte_DSA_G2_BackEnd\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"edu.upc.dsa.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"edu.upc.dsa\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"edu.upc.dsa.PlayerManagerTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testPutPlayer\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.PlayerManagerTest.testPutPlayer\" />\r\n        <item itemvalue=\"JUnit.PlayerManagerTest.testAddPlayer\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"c81be3c7-98a2-43e5-a4e4-4315a77ee2f1\" name=\"Changes\" comment=\"\" />\r\n      <created>1700072308252</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1700072308252</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"-Clase PlayerManagerImpl con funciones de Login, Register y comprar un Item. En proceso la creación de la pagina web html de la tienda, mañana acabada.\" />\r\n    <MESSAGE value=\"Four Commit\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Four Commit\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 4d46187cb117ee122c941b353ea65ac3ca664ffd)
++++ b/.idea/workspace.xml	(date 1700417273231)
+@@ -4,18 +4,11 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="c81be3c7-98a2-43e5-a4e4-4315a77ee2f1" name="Changes" comment="Four Commit">
++    <list default="true" id="c81be3c7-98a2-43e5-a4e4-4315a77ee2f1" name="Changes" comment="Mejora en general del código.">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/Main.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManager.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManagerImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManger.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exceptions/ContraseñaIncorrecta.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Item.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Register.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/test/java/edu/upc/dsa/PlayerManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/upc/dsa/PlayerManagerTest.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -66,16 +59,16 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "DefaultHtmlFileTemplate": "HTML File",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "master",
+-    "last_opened_file_path": "C:/Users/charl/Desktop/DSA/Iteració_1",
+-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/charl/Desktop/DSA/Iteració_1&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="D:\EETAC\3A\DSA\Projecte_DSA_G2_BackEnd\.idea" />
+@@ -86,7 +79,7 @@
+       <recent name="C:\Users\charl\Desktop\DSA\Iteració_1\src\main\java\edu\upc\dsa\exceptions" />
+     </key>
+   </component>
+-  <component name="RunManager">
++  <component name="RunManager" selected="JUnit.PlayerManagerTest.testUpdatePlayer">
+     <configuration name="PlayerManagerTest.testAddPlayer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="Projecte_DSA_G2_BackEnd" />
+       <extension name="coverage">
+@@ -114,6 +107,22 @@
+       <option name="PACKAGE_NAME" value="edu.upc.dsa" />
+       <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.PlayerManagerTest" />
+       <option name="METHOD_NAME" value="testPutPlayer" />
++      <option name="TEST_OBJECT" value="method" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="PlayerManagerTest.testUpdatePlayer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++      <module name="Projecte_DSA_G2_BackEnd" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="edu.upc.dsa.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
++      <option name="PACKAGE_NAME" value="edu.upc.dsa" />
++      <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.PlayerManagerTest" />
++      <option name="METHOD_NAME" value="testUpdatePlayer" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+@@ -121,6 +130,7 @@
+     </configuration>
+     <recent_temporary>
+       <list>
++        <item itemvalue="JUnit.PlayerManagerTest.testUpdatePlayer" />
+         <item itemvalue="JUnit.PlayerManagerTest.testPutPlayer" />
+         <item itemvalue="JUnit.PlayerManagerTest.testAddPlayer" />
+       </list>
+@@ -135,11 +145,33 @@
+       <option name="presentableId" value="Default" />
+       <updated>1700072308252</updated>
+     </task>
++    <task id="LOCAL-00001" summary="Mejora en general del código.">
++      <option name="closed" value="true" />
++      <created>1700339483997</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1700339483997</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="-Clase PlayerManagerImpl con funciones de Login, Register y comprar un Item. En proceso la creación de la pagina web html de la tienda, mañana acabada." />
+     <MESSAGE value="Four Commit" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Four Commit" />
++    <MESSAGE value="Merge remote-tracking branch 'Projecte_DSA_G2_BackEnd/master'&#10;&#10;# Conflicts:&#10;#&#9;src/main/java/edu/upc/dsa/PlayerManagerImpl.java" />
++    <MESSAGE value="Mejora en general del código." />
++    <option name="LAST_COMMIT_MESSAGE" value="Mejora en general del código." />
+   </component>
+ </project>
+\ No newline at end of file

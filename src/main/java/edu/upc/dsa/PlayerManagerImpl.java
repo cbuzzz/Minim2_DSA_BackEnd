@@ -9,7 +9,6 @@ import edu.upc.dsa.models.Item;
 import edu.upc.dsa.models.Login;
 import edu.upc.dsa.models.Register;
 import edu.upc.dsa.models.Player;
-import edu.upc.dsa.PlayerManager;
 import org.apache.log4j.Logger;
 
 public class PlayerManagerImpl implements PlayerManager {
@@ -70,7 +69,7 @@ public class PlayerManagerImpl implements PlayerManager {
 
     //Add a player to the list
     @Override
-    public Player addPlayer(String username, String password, String telephone, String email) throws PlayerNoEncontrado {
+    public Player addPlayer(String username, String password, String telephone, String email){
         Player p = searchPlayerUsernameAndPassword(username, password);
         if (p==null) {
             logger.info("new player " + username + " " + password);

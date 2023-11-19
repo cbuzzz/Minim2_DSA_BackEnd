@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface PlayerManager {
 
-    public List<Player> findAll();
+    List<Player> findAll();
 
-    public Player getPlayer(String id) throws PlayerNoEncontrado;
+   Player getPlayer(String id) throws PlayerNoEncontrado;
 
-    public Player registerPlayer(Register r) throws PlayerYaExiste;
+    Player registerPlayer(Register r) throws PlayerYaExiste;
 
-    public Player loginPlayer(Login l) throws PlayerNoEncontrado;
+     Player loginPlayer(Login l) throws PlayerNoEncontrado;
 
-    public Player addPlayer(String username, String password, String telephone, String email) throws PlayerYaExiste, PlayerNoEncontrado;
+    Player addPlayer(String username, String password, String telephone, String email) throws PlayerYaExiste, PlayerNoEncontrado;
 
-    public Player updatePlayer(Player p) throws PlayerNoEncontrado;
+    Player updatePlayer(Player p) throws PlayerNoEncontrado;
 
     Player searchPlayerUsernameAndPassword(String username, String password) throws PlayerNoEncontrado;
 
-    public int size();
+   int size();
 }

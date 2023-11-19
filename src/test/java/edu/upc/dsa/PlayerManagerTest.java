@@ -15,7 +15,7 @@ public class PlayerManagerTest {
 
     @Before
     public void setUp() throws PlayerNoEncontrado, PlayerYaExiste {
-        pm = (PlayerManager) new PlayerManagerImpl();
+        pm = new PlayerManagerImpl();
         pm.addPlayer("Pablito","2345","680739345","pab@gmail.com");
         pm.addPlayer("Juanito","1234","680156796","juas@gmail.com");
         pm.addPlayer("Pepito","3456","611212117","pep@yahoo.es");
@@ -46,7 +46,7 @@ public class PlayerManagerTest {
         List<Player> players = pm.findAll();
         Player p = players.get(1);
         p.setPassword("2333");
-        Player p2 = pm.putPlayer(p);
+        Player p2 = pm.updatePlayer(p);
 
         Assert.assertEquals(p2.getUsername(),pm.findAll().get(1).getUsername());
         Assert.assertEquals(p2.getPassword(),pm.findAll().get(1).getPassword());

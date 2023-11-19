@@ -10,24 +10,17 @@ public class Item {
     String description;
     String type;
     double price;
-    String url;
-    public static Map<String,Item> Tienda = new HashMap<>();
 
     public Item() {
-        this.id = new Random().nextInt();
+
     }
 
-    public Item(int id, String name, String description, String type, double price) {
+    public Item(String name, String description, String type, double price) {
         this();
-        this.setId(id);
         this.setName(name);
         this.setDescription(description);
         this.setType(type);
         this.setPrice(price);
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -46,13 +39,10 @@ public class Item {
         return price;
     }
 
-    public String getUrl() {
-        return url;
+    public int getId() {
+        return id;
     }
 
-    public void setId(int id) {
-        this.id=id;
-    }
     public void setName(String name) {
         this.name=name;
     }
@@ -65,15 +55,15 @@ public class Item {
         this.type=type;
     }
 
-    public void setPrice(double prize) {
+    public void setPrice(double price) {
         this.price=price;
     }
 
-    public void setUrl(String url) {
-        this.url=url;
+    public void setId(int id) {
+        this.id=id;
     }
 
     public String toString() {
-        return "Item [id="+id+", name="+name+", description="+description+", type="+type+", prize="+price+", url="+url+"]";
+        return "Item [id="+id+", name="+name+", description="+description+", type="+type+", prize="+price+"]";
     }
 }

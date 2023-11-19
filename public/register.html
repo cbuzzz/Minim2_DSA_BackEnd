@@ -1,9 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Head content as in the previous example -->
     <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script>
+    $('form').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
+        var dataBody = {
+            username: $("#username").val(),
+            password: $("#password").val(),
+            telephoneNumber: $("#telephoneNumber").val(),
+            email: $("#email").val()
+        };
+
+        var URL = "/dsaApp/player/register";
+
+        $.post({
+            url: URL,
+            data: JSON.stringify(dataBody),
+            contentType: 'application/json; charset=utf-8'
+        })
+        .done(function(data, status){
+            location.href = "/login.html";
+        })
+        .fail(function(xhr, err){
+            alert("Usuario o contraseña ya existente");
+        });
+    });
+    </script>
 </head>
 <body>
 <div class="container">
@@ -18,17 +46,17 @@
         </div>
         <div class="form-group" style="margin-bottom: 10px;">
             <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" placeholder="Choose a password">
+            <input type="text" class="form-control" id="password" placeholder="Choose a password">
         </div>
         <div class="form-group" style="margin-bottom: 10px;">
             <label for="telephoneNumber">Telephone number:</label>
-            <input type="telephoneNumber" class="form-control" id="telephoneNumber" placeholder="Choose a telephone number" required>
+            <input type="text" class="form-control" id="telephoneNumber" placeholder="Choose a telephone number" required>
         </div>
         <div class="form-group" style="margin-bottom: 10px;">
             <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter your email">
+            <input type="text" class="form-control" id="email" placeholder="Enter your email">
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button id="button_register" type="submit" class="btn btn-primary">Register</button>
     </form>
     <br>
     <a href="login.html" class="btn custom-btn">Login</a>
