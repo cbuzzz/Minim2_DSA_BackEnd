@@ -1,83 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Head content as in the previous example -->
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="styleShop.css">
+    <meta charset="UTF-8">
+    <title>Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        h3 {
+            color: #007bff;
+        }
+
+        p {
+            color: #6c757d;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .signup-link {
+            color: #007bff;
+            text-align: center;
+        }
+
+        #logoutButton {
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var url = "/items/shop";
+            $.get(url, function (data) {
+                for (var key = 0; key < 2; key++) {
+                    $("#tabla").append("<tr><td>" + data[key].name + "</td><td>" + data[key].description + "</td><td>" + data[key].type + "</td><td>" + data[key].price + "</td></tr>");
+                }
+            });
+
+            $("#logoutButton").click(function () {
+                location.href = "/login.html"
+            });
+        });
+    </script>
 </head>
 <body>
-
+<div class="container" style="text-align:center;">
+    <h3>Shop</h3>
+    <p>These are the items available for purchase!</p>
+</div>
 <div class="container">
-    <div class="shop-container">
-
-    <h1 class="custom-font">SHOP</h1>
-    <p>Welcome to the shop. Please identify yourself</p>
-
-
-<div id="registrationForm">
-    <form>
-        <label for="userID">User ID:</label>
-        <input type="text" id="userID" name="userID" required>
-        <br>
-        <p></p>
-        <button type="submit">Identify</button>
-        <br>
-        <br>
-
-    </form>
+    <table class="table table-striped" id="tabla">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block" id="logoutButton">Log Out</button>
+        <div class="signup-link">
+        </div>
+    </div>
 </div>
-    </div>
-        <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
-        <h2>Flashlight</h2>
-        <img src="https://static.carrefour.es/crs/cdn-static/promo-content/Carrefour/contenidos/bricolaje/consejo-linternas-2.jpg" alt="Escape Room Item 1">
-        <p >"May it be a light for you in dark places, when all other lights go out."</p>
-    </div>
-    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
-        <h2>Secret key</h2>
-        <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQl0BaK1HcOHmEYrdp_95-SiTv3WV8B2MnMKcVKGPrBh9aOjorN" alt="Escape Room Item 1">
-        <p>"Alohomora"</p>
-    </div>
-    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
-        <h2>The horn</h2>
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhG1shkfljf_rc-_BJlo-KRW5qnHYjwS5VAFP9ZCLCennPz_2XliqmoFPc94ghzv3zLqUTFoCGC2pKd-A23yvFjGn1nH5Si4ZpWuy_Wi-SXl4kDlIMDmcWxkyWGMOxJLL6HopB3H89oXPbOhNQ6CFB6mhMYa_Y6j4D5-B_L6jiPAVO0j6CiO2H0dijOe5Qi/s1024/_s58BjyF__upscaled.jpg" alt="Escape Room Item 1">
-        <p>"Run, you cowards"</p>
-    </div>
-    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
-        <h2>Strength potion</h2>
-        <img src="https://cdn.midjourney.com/033d53d9-ec09-4b75-ab45-aaf9c456c1ff/grid_0_640_N.webp" alt="Escape Room Item 1">
-        <p>"The Force is strong with this one"</p>
-    </div>
-    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
-        <h2>Speed potion</h2>
-        <img src="https://cdn.midjourney.com/2dc2e25a-475e-493c-a9db-088d22b1c4de/grid_0_640_N.webp" alt="Escape Room Item 1">
-        <p>"When running is the only option"</p>
-    </div>
-    <div class="escape-room-item" onclick="purchaseItem('User123', 'Item 1')">
-        <h2>Health potion</h2>
-        <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSZMPQ2DWhr7ce7unBwlXTNJddc4BRyBvZQccd8gjB4vj-zDhmP" alt="Escape Room Item 1">
-        <p>"Heal up boy"</p>
-    </div>
-    <div>
-        <br>
-    <a href="login.html" class="btn custom-btnShop">Login</a>
-    <a href="register.html" class="btn custom-btnShop">Register</a>
-
-</div>
-</div>
-
-
-
-<!-- Repeat similar blocks for other items -->
-
-
-
-<!-- jQuery and Bootstrap JS -->
-<!-- Script tags as in the previous example -->
-
-<script>
-    function purchaseItem(userID, productName) {
-        alert(`Purchase successful!\nUser ID: ${userID}\nProduct: ${productName}`);
-    }
-</script>
 </body>
 </html>

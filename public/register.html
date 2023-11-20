@@ -2,69 +2,119 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Head content as in the previous example -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Register</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <script>
-    $('form').submit(function(event) {
-        event.preventDefault(); // Prevent the default form submission
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
 
-        var dataBody = {
-            username: $("#username").val(),
-            password: $("#password").val(),
-            telephoneNumber: $("#telephoneNumber").val(),
-            email: $("#email").val()
-        };
+        .container {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-        var URL = "/dsaApp/player/register";
+        h3 {
+            color: #007bff;
+        }
 
-        $.post({
-            url: URL,
-            data: JSON.stringify(dataBody),
-            contentType: 'application/json; charset=utf-8'
-        })
-        .done(function(data, status){
-            location.href = "/login.html";
-        })
-        .fail(function(xhr, err){
-            alert("Usuario o contraseña ya existente");
-        });
-    });
-    </script>
+        p {
+            color: #6c757d;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .signup-link {
+            color: #007bff;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
-    <div class="loginregister-container">
+    <h3>Register</h3>
+    <p>Provide the following information to sign up!</p>
 
-        <h1 class="loginregister-title">Register</h1>
-    <!-- Simple registration form -->
-    <form>
-        <div class="form-group" style="margin-bottom: 10px;">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" placeholder="Choose a username">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Username" id="username" name="username" required>
+    </div>
+
+    <div class="input-group">
+        <input type="password" class="form-control" placeholder="Password" id="password" name="password" required>
+    </div>
+
+    <div class="input-group">
+        <input type="tel" class="form-control" placeholder="Telephone Number" id="phoneNumber" name="phoneNumber" required>
+    </div>
+
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Email" id="email" name="email" required>
+        <div class="input-group-append">
+            <span class="input-group-text">@example.com</span>
         </div>
-        <div class="form-group" style="margin-bottom: 10px;">
-            <label for="password">Password:</label>
-            <input type="text" class="form-control" id="password" placeholder="Choose a password">
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-primary btn-block" id="registerButton">Register</button>
+        <div class="signup-link">
+            Already have an account? <a href="login.html">Log in!</a>
         </div>
-        <div class="form-group" style="margin-bottom: 10px;">
-            <label for="telephoneNumber">Telephone number:</label>
-            <input type="text" class="form-control" id="telephoneNumber" placeholder="Choose a telephone number" required>
-        </div>
-        <div class="form-group" style="margin-bottom: 10px;">
-            <label for="email">Email:</label>
-            <input type="text" class="form-control" id="email" placeholder="Enter your email">
-        </div>
-        <button id="button_register" type="submit" class="btn btn-primary">Register</button>
-    </form>
-    <br>
-    <a href="login.html" class="btn custom-btn">Login</a>
-    <a href="shop.html" class="btn custom-btn">Shop</a>
     </div>
 </div>
 
-<!-- jQuery and Bootstrap JS -->
-<!-- Script tags as in the previous example -->
+<script>
+    $(document).ready(function () {
+        $("#registerButton").click(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var dataBody = {
+                username: $("#username").val(),
+                password: $("#password").val(),
+                phoneNumber: $("#phoneNumber").val(),
+                email: $("#email").val()
+            };
+
+            var URL = "/player/register";
+            $.post({
+                url: URL,
+                data: JSON.stringify(dataBody),
+                contentType: 'application/json; charset=utf-8'
+            })
+            .done(function (data, status) {
+                //alert("Registration successful");
+                location.href = "/login.html";
+            })
+            .fail(function (xhr, err) {
+                alert("Email or Username already in use");
+                location.reload();
+            });
+        });
+    });
+</script>
 </body>
 </html>
+

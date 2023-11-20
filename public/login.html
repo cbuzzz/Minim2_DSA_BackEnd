@@ -1,66 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Head content as in the previous example -->
-    <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="UTF-8">
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #007bff;
+        }
+
+        p {
+            color: #6c757d;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .signup-link {
+            color: #007bff;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h3>Login</h3>
+    <p>Type in your credentials to log in!</p>
 
-    <script>
-        $(document).ready(function(){
-           $('#login_button').click(function() {
-             var dataBody=
-             {
-                    "username": $("#username").val(),
-                    "password": $("#password").val()
-             }
-             var URL = "/dsaApp/player/login";
-             $.post(
-             {
-                 url: URL,
-                 data: JSON.stringify(dataBody),
-                 contentType: 'application/json; charset=utf-8'
-             })
-                 .done(function(data, status){
-                        alert("Usuario logeado correctamente");
-                        $("#userRegister").empty();
-                        $("#passRegister").empty();
-                 })
-                 .fail(function(xhr, err){
-                     alert("Usuario no logeado, introduzca los datos correctamente");
-                     location.reload();
-                 })
-           });
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Username" id="username" name="username" required>
+    </div>
+
+    <div class="input-group">
+        <input type="password" class="form-control" placeholder="Password" id="password" name="password" required>
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-primary btn-block" id="loginButton">Login</button>
+        <div class="signup-link">
+            Don't have an account? <a href="register.html"> Sign up!</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#loginButton").click(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var dataBody = {
+                username: $("#username").val(),
+                password: $("#password").val()
+            };
+
+            var URL = "/player/login";
+            $.post({
+                url: URL,
+                data: JSON.stringify(dataBody),
+                contentType: 'application/json; charset=utf-8'
+            })
+            .done(function (data, status) {
+                //alert("Login successful ");
+                location.href = "/shop.html";
+            })
+            .fail(function (xhr, err) {
+                alert("Wrong credentials");
+                location.reload();
+            });
         });
-    </script>
- </head>
- <body>
- <div class="container">
-     <div class="loginregister-container">
-         <h1 class="login register-title">Login</h1>
-     <!-- Simple login form -->
-     <form>
-         <div class="form-group" style="margin-bottom: 10px;">
-             <label for="username">Username:</label>
-             <input type="text" class="form-control" id="username" placeholder="Enter your username">
-         </div>
-         <div class="form-group" style="margin-bottom: 10px;">
-             <label for="password">Password:</label>
-             <input type="password" class="form-control" id="password" placeholder="Enter your password">
-         </div>
-         <button id="login_button" type="submit" class="btn btn-primary">Login</button>
-     </form>
-     <br>
-     <a href="register.html" class="custom-btn">Register</a>
-     <a href="shop.html" class="custom-btn">Shop</a>
-     </div>
- </div>
- <!-- jQuery and Bootstrap JS -->
- <!-- Script tags as in the previous example -->
- </body>
- </html>
+    });
+</script>
+</body>
+</html>
