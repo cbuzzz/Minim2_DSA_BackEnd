@@ -6,17 +6,19 @@ import java.util.ArrayList;
 
 
 public class Player {
-    private String id;
+
+    //private String id;
     private String username;
     private String password;
     private String telephoneNumber;
     private String email;
-    private int level;
-    private double coins;
-    private List<Item> Inventario = new ArrayList<>();
+
+    //private int level;
+    //private double coins;
+    //private List<Item> Inventario = new ArrayList<>();
 
     public Player() {
-        this.id = RandomUtils.getId();
+
     }
 
     public Player(String username, String password, String telephoneNumber, String email) {
@@ -27,9 +29,9 @@ public class Player {
         this.setEmail(email);
     }
 
-    public String getId() {
-        return id;
-    }
+    //public String getId() {
+    //    return id;
+    //}
 
     public String getUsername() {
         return username;
@@ -47,17 +49,17 @@ public class Player {
         return email;
     }
 
-    public int getLevel() {
-        return level;
-    }
+    //public int getLevel() {
+    //    return level;
+    //}
 
-    public double getCoins() {
-        return coins;
-    }
+    //public double getCoins() {
+    //    return coins;
+    // }
 
-    public void setId(String id) {
-        this.id=id;
-    }
+    //public void setId(String id) {
+    //    this.id=id;
+    //}
 
     public void setUsername(String username) {
         this.username=username;
@@ -75,19 +77,19 @@ public class Player {
         this.email=email;
     }
 
-    public void setLevel(int level) {
-        this.level=level;
-    }
+    //public void setLevel(int level) {
+    //    this.level=level;
+    //}
 
-    public void setCoins(double coins) {
-        this.coins=coins;
-    }
+    //public void setCoins(double coins) {
+    //    this.coins=coins;
+    //}
 
-    public List<Item> getInventario() {
-        return Inventario;
-    }
+    //public List<Item> getInventario() {
+    //    return Inventario;
+    //}
 
-    public void setInventario(List<Item> inventario) {
-        Inventario = inventario;
-    }
+    //public void setInventario(List<Item> inventario) {
+    //    Inventario = inventario;
+    //}
 }

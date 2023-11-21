@@ -1,54 +1,48 @@
 package edu.upc.dsa;
-import edu.upc.dsa.PlayerManager;
-import edu.upc.dsa.PlayerManagerImpl;
-import edu.upc.dsa.exceptions.PlayerNoEncontrado;
-import edu.upc.dsa.exceptions.PlayerYaExiste;
+
+import edu.upc.dsa.exceptions.*;
 import edu.upc.dsa.models.Player;
+import edu.upc.dsa.models.Login;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.List;
+import org.apache.log4j.Logger;
+
+import static org.junit.Assert.assertEquals;
+
 
 public class PlayerManagerTest {
-    PlayerManager pm;
+
+    PlayerManager instance;
+    final static Logger logger = Logger.getLogger(PlayerManagerImpl.class);
 
     @Before
-    public void setUp() throws PlayerNoEncontrado, PlayerYaExiste {
-        pm = new PlayerManagerImpl();
-        pm.addPlayer("Pablito","2345","680739345","pab@gmail.com");
-        pm.addPlayer("Juanito","1234","680156796","juas@gmail.com");
-        pm.addPlayer("Pepito","3456","611212117","pep@yahoo.es");
+    public void setUp() throws UsernameInUseException, PasswordNotMatchException, PlayerNotResgisteredException {
+        this.instance = new PlayerManagerImpl();
+        this.instance.registerPlayer(new Player("Andrei", "1234", "680739345", "andreipiposi@gmail.com"));
+        this.instance.registerPlayer(new Player("Pau", "3334", "680739346", "pauquintano@gmail.com"));
+        this.instance.registerPlayer(new Player("Hauses", "4444", "680739347", "mirey@gmail.com"));
+        this.instance.loginPlayer(new Login("Andrei", "1234"));
     }
 
     @After
     public void tearDown() {
-        pm = null;
+        this.instance = null;
     }
 
     @Test
-    public void testAddPlayer() throws PlayerYaExiste, PlayerNoEncontrado {
-        List<Player> players = pm.findAll();
-
-
-        Assert.assertEquals("Pablito", players.get(0).getUsername());
-        Assert.assertEquals("2345", players.get(0).getPassword());
-
-        Assert.assertEquals("Juanito", players.get(1).getUsername());
-        Assert.assertEquals("1234", players.get(1).getPassword());
-
-        Assert.assertEquals("Pepito", players.get(2).getUsername());
-        Assert.assertEquals("3456", players.get(2).getPassword());
+    public void testRegisterPlayer() throws UsernameInUseException {
+        Player p = new Player("Marc", "3455", "680739348", "marcq@gmail.com");
+        this.instance.registerPlayer(p);
+        Assert.assertEquals(4, this.instance.playerNumber());
+        Assert.assertEquals(4,this.instance.size());
     }
 
     @Test
-    public void testUpdatePlayer() throws PlayerNoEncontrado {
-        List<Player> players = pm.findAll();
-        Player p = players.get(1);
-        p.setPassword("2333");
-        Player p2 = pm.updatePlayer(p);
-
-        Assert.assertEquals(p2.getUsername(),pm.findAll().get(1).getUsername());
-        Assert.assertEquals(p2.getPassword(),pm.findAll().get(1).getPassword());
+    public void testLoginPlayer() throws PlayerNotResgisteredException, PasswordNotMatchException {
+        Player p = this.instance.loginPlayer(new Login("Pau", "3334"));
+        Assert.assertEquals(2, this.instance.logNumber());
     }
 }

@@ -59,7 +59,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            var url = "/items/shop";
+            var url = "dsaApp/items/shop";
             $.get(url, function (data) {
                 for (var key = 0; key < 2; key++) {
                     $("#tabla").append("<tr><td>" + data[key].name + "</td><td>" + data[key].description + "</td><td>" + data[key].type + "</td><td>" + data[key].price + "</td></tr>");

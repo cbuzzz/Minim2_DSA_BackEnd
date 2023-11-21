@@ -4,14 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c81be3c7-98a2-43e5-a4e4-4315a77ee2f1" name="Changes" comment="Añadido todo lo relacionado con Item, test funciona.">
+    <list default="true" id="c81be3c7-98a2-43e5-a4e4-4315a77ee2f1" name="Changes" comment="Update .html para el login, register, shop">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/home.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/register.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/shop.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/styleShop.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/shop.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/ItemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/ItemManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/PlayerManagerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exceptions/DineroInsuficienteException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exceptions/PlayerNoEncontrado.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exceptions/PlayerYaExiste.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exceptions/ProductoNoExisteException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Register.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/PlayerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/upc/dsa/PlayerManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/upc/dsa/PlayerManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +32,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -73,6 +83,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="edu.upc.dsa.exceptions" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\EETAC\3A\DSA\Projecte_DSA_G2_BackEnd\.idea" />
       <recent name="D:\EETAC\3A\DSA\Projecte_DSA_G2_BackEnd\src\main\java" />
@@ -83,7 +96,8 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="ItemManagerTest.addItems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.Main" />
       <module name="Projecte_DSA_G2_BackEnd" />
       <extension name="coverage">
         <pattern>
@@ -91,31 +105,11 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="edu.upc.dsa" />
-      <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.ItemManagerTest" />
-      <option name="METHOD_NAME" value="addItems" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ItemManagerTest.addItemsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Projecte_DSA_G2_BackEnd" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.upc.dsa.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.upc.dsa" />
-      <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.ItemManagerTest" />
-      <option name="METHOD_NAME" value="addItemsTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PlayerManagerTest.testAddPlayer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PlayerManagerTest.loginPlayerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Projecte_DSA_G2_BackEnd" />
       <extension name="coverage">
         <pattern>
@@ -125,13 +119,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.upc.dsa" />
       <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.PlayerManagerTest" />
-      <option name="METHOD_NAME" value="testAddPlayer" />
+      <option name="METHOD_NAME" value="loginPlayerTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlayerManagerTest.testPutPlayer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PlayerManagerTest.registerPlayerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Projecte_DSA_G2_BackEnd" />
       <extension name="coverage">
         <pattern>
@@ -141,7 +135,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.upc.dsa" />
       <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.PlayerManagerTest" />
-      <option name="METHOD_NAME" value="testPutPlayer" />
+      <option name="METHOD_NAME" value="registerPlayerTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerManagerTest.testLoginPlayer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Projecte_DSA_G2_BackEnd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.upc.dsa.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.upc.dsa" />
+      <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.PlayerManagerTest" />
+      <option name="METHOD_NAME" value="testLoginPlayer" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerManagerTest.testRegisterPlayer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Projecte_DSA_G2_BackEnd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.upc.dsa.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.upc.dsa" />
+      <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.PlayerManagerTest" />
+      <option name="METHOD_NAME" value="testRegisterPlayer" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -149,10 +175,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ItemManagerTest.addItemsTest" />
-        <item itemvalue="JUnit.ItemManagerTest.addItems" />
-        <item itemvalue="JUnit.PlayerManagerTest.testAddPlayer" />
-        <item itemvalue="JUnit.PlayerManagerTest.testPutPlayer" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.PlayerManagerTest.testRegisterPlayer" />
+        <item itemvalue="JUnit.PlayerManagerTest.testLoginPlayer" />
+        <item itemvalue="JUnit.PlayerManagerTest.loginPlayerTest" />
+        <item itemvalue="JUnit.PlayerManagerTest.registerPlayerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -181,13 +208,22 @@
       <option name="project" value="LOCAL" />
       <updated>1700423317487</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Update .html para el login, register, shop">
+      <option name="closed" value="true" />
+      <created>1700507680368</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1700507680368</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-Clase PlayerManagerImpl con funciones de Login, Register y comprar un Item. En proceso la creación de la pagina web html de la tienda, mañana acabada." />
     <MESSAGE value="Four Commit" />
     <MESSAGE value="Añadido todo lo relacionado con Item, test funciona." />
-    <option name="LAST_COMMIT_MESSAGE" value="Añadido todo lo relacionado con Item, test funciona." />
+    <MESSAGE value="Update .html para el login, register, shop" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update .html para el login, register, shop" />
   </component>
 </project>

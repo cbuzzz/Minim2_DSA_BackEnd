@@ -57,7 +57,7 @@
 <body>
 <div class="container">
     <h3>Login</h3>
-    <p>Type in your credentials to log in!</p>
+    <p>Type your information to log in!</p>
 
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Username" id="username" name="username" required>
@@ -77,26 +77,25 @@
 
 <script>
     $(document).ready(function () {
-        $("#loginButton").click(function (event) {
-            event.preventDefault(); // Prevent the default form submission
+        $("#loginButton").click(function () {
 
             var dataBody = {
                 username: $("#username").val(),
                 password: $("#password").val()
             };
 
-            var URL = "/player/login";
+            var URL = "dsaApp/player/login";
             $.post({
                 url: URL,
                 data: JSON.stringify(dataBody),
                 contentType: 'application/json; charset=utf-8'
             })
             .done(function (data, status) {
-                //alert("Login successful ");
+                //alert("Login successful");
                 location.href = "/shop.html";
             })
             .fail(function (xhr, err) {
-                alert("Wrong credentials");
+                alert("Wrong information");
                 location.reload();
             });
         });

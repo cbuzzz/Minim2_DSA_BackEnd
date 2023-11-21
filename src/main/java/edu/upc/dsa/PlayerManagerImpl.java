@@ -4,18 +4,22 @@ import edu.upc.dsa.exceptions.*;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
 
-import edu.upc.dsa.models.Item;
 import edu.upc.dsa.models.Login;
-import edu.upc.dsa.models.Register;
 import edu.upc.dsa.models.Player;
 import org.apache.log4j.Logger;
+
 
 public class PlayerManagerImpl implements PlayerManager {
 
     private static PlayerManager instance;
     final static Logger logger = Logger.getLogger(PlayerManagerImpl.class);
     protected List<Player> players;
+    protected List<Player> logins;
+    private HashMap<String, Player> playerHashMap;
+
 
     public static PlayerManager getInstance() {
         if (instance==null)
@@ -31,103 +35,74 @@ public class PlayerManagerImpl implements PlayerManager {
 
     public PlayerManagerImpl() {
         this.players = new LinkedList<>();
+        this.logins = new LinkedList<>();
+        this.playerHashMap = new HashMap<>();
+    }
+
+    //Give all the players
+    @Override
+    public List<Player> getPlayers() {
+        return this.players;
     }
 
     //Search a player by username and password
     @Override
     public Player searchPlayerUsernameAndPassword(String username, String password) {
-        logger.info("getPlayer("+username+","+password+")");
-        for (Player p: this.players) {
+         for (Player p : this.players) {
             if (p.getUsername().equals(username) && p.getPassword().equals(password)) {
-                logger.info("getPlayer("+username+","+password+"): "+p);
                 return p;
             }
         }
-        logger.warn("not found " + username + " " + password);
         return null;
-    }
-
-    //Find all the players
-    @Override
-    public List<Player> findAll() {
-        return this.players;
-    }
-
-    //Get a player by id
-    @Override
-    public Player getPlayer(String id) throws PlayerNoEncontrado {
-        logger.info("getPlayer("+id+")");
-        for (Player p: this.players) {
-            if (p.getId().equals(id)) {
-                logger.info("getPlayer("+id+"): "+p);
-                return p;
-            }
-        }
-        logger.warn("not found " + id);
-        throw new PlayerNoEncontrado();
-    }
-
-    //Add a player to the list
-    @Override
-    public Player addPlayer(String username, String password, String telephone, String email){
-        Player p = searchPlayerUsernameAndPassword(username, password);
-        if (p==null) {
-            logger.info("new player " + username + " " + password);
-            p = new Player(username, password, telephone, email);
-            this.players.add ( p );
-            return p;
-        }
-        else {
-            logger.warn("Player already exists");
-            return null;
-        }
-    }
-
-    //Put a player
-    @Override
-    public Player updatePlayer(Player p) throws PlayerNoEncontrado {
-        Player p1 = this.getPlayer(p.getId());
-        if (p1!=null) {
-            logger.info(p + " received!");
-            p1.setUsername(p.getUsername());
-            p1.setPassword(p.getPassword());
-            logger.info(p1 + " updated!");
-        }
-        else {
-            logger.warn("not found " + p.getId());
-            throw new PlayerNoEncontrado();
-        }
-        return p1;
     }
 
     //Register a player
     @Override
-    public Player registerPlayer(Register r) {
-        Player p = searchPlayerUsernameAndPassword(r.getUsername(), r.getPassword());
-        if (p==null) {
-            logger.info("new player " + r.getUsername() + " " + r.getPassword());
-            p = new Player(r.getUsername(), r.getPassword(), r.getTelephoneNumber(), r.getEmail());
-            this.players.add ( p );
-            return p;
+    public Player registerPlayer(Player p) throws UsernameInUseException{
+        Player player = playerHashMap.get(p.getUsername());
+        if(player != null){
+            logger.warn("Username already in use");
+            throw new UsernameInUseException();
         }
-        else {
-            logger.warn("Player already exists");
-            return null;
+        else{
+            this.players.add(p);
+            this.playerHashMap.put(p.getUsername(), p);
+            logger.info("New player registered");
+            return p;
         }
     }
 
     //Login a player
     @Override
-    public Player loginPlayer(Login l)  {
-        logger.info("loginPlayer("+l.getUsername()+","+l.getPassword()+")");
-        Player p = searchPlayerUsernameAndPassword(l.getUsername(), l.getPassword());
-        if (p!=null) {
-            logger.info("loginPlayer("+l.getUsername()+","+l.getPassword()+"): "+p);
-            return p;
+    public Player loginPlayer(Login login) throws PlayerNotResgisteredException, PasswordNotMatchException {
+        String username = login.getUsername();
+        Player player = playerHashMap.get(username);
+        if(player == null){
+            logger.warn("Player not registered");
+            throw new PlayerNotResgisteredException();
         }
-        else {
-            logger.warn("not found " + l.getUsername() + " " + l.getPassword());
-            return null;
+        else{
+            if(player.getPassword().equals(login.getPassword())){
+                this.logins.add(player);
+                logger.info("Player logged in");
+                return player;
+            }
+            else{
+                logger.warn("Password not match");
+                throw new PasswordNotMatchException();
+            }
         }
+    }
+
+    //Player number
+    @Override
+    public int playerNumber() {
+        return this.players.size();
+    }
+
+    //Log Number
+    @Override
+    public int logNumber() {
+        return this.logins.size();
     }
 }
