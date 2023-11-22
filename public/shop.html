@@ -5,64 +5,27 @@
     <title>Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            background-color: #ffffff;
-        }
-
-        h3 {
-            color: #007bff;
-        }
-
-        p {
-            color: #6c757d;
-        }
-
-        .table {
-            margin-top: 20px;
-        }
-
-        th, td {
-            text-align: center;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .signup-link {
-            color: #007bff;
-            text-align: center;
-        }
-
-        #logoutButton {
-            margin-top: 20px;
-        }
-    </style>
+    <!-- Head content as in the previous example -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="styleShop.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
+            $(document).ready(function () {
             var url = "dsaApp/items/shop";
             $.get(url, function (data) {
-                for (var key = 0; key < 2; key++) {
-                    $("#tabla").append("<tr><td>" + data[key].name + "</td><td>" + data[key].description + "</td><td>" + data[key].type + "</td><td>" + data[key].price + "</td></tr>");
+                for (var key = 0; key < 6; key++) {
+                var newItem = $("<div class='escape-room-item'></div>");
+
+            newItem.append("<h2>" + data[key].name + "</h2>");
+            newItem.append("<img src='" + data[key].imageUrl + "' alt='Escape Room Item'>");
+            newItem.append("<p>Description: " + data[key].description + "</p>");
+            newItem.append("<p>Type: " + data[key].type + "</p>");
+            newItem.append("<p>Price: " + data[key].price + "</p>");
+
+            $("#itemsContainer").append(newItem);
                 }
             });
 
@@ -73,27 +36,30 @@
     </script>
 </head>
 <body>
-<div class="container" style="text-align:center;">
-    <h3>Shop</h3>
-    <p>These are the items available for purchase!</p>
-</div>
 <div class="container">
-    <table class="table table-striped" id="tabla">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block" id="logoutButton">Log Out</button>
-        <div class="signup-link">
+    <div class="shop-container">
+        <h1 class="custom-font">SHOP</h1>
+        <p>Welcome to the shop. Please identify yourself</p>
+        <div id="registrationForm">
+            <form>
+                <label for="userID">User ID:</label>
+                <input type="text" id="userID" name="userID" required>
+                <br>
+                <button type="submit">Identify</button>
+                <br>
+            </form>
         </div>
+    </div>
+
+    <div id="itemsContainer">
+
+        <!-- Aquí es donde se agregarán dinámicamente los elementos de la tienda -->
+    </div>
+
+    <div>
+        <br>
+        <a href="login.html" class="btn custom-btnShop">Login</a>
+        <a href="register.html" class="btn custom-btnShop">Register</a>
     </div>
 </div>
 </body>

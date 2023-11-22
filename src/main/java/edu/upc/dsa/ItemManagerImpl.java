@@ -23,8 +23,12 @@ public class ItemManagerImpl implements ItemManager {
             return this.items.size();
         }
         public List<Item> ShopItems() {
-            items.add(new Item("Magnesi", "+20faster", "Potion", 10));
-            items.add(new Item("Escudo", "Escudo de madera", "Arma", 10));
+            items.add(new Item("Flashlight","https://png.pngtree.com/background/20230612/original/pngtree-wolf-animals-images-wallpaper-for-pc-384x480-picture-image_3180467.jpg", "+20faster", "Potion", 10));
+            items.add(new Item("Key","https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQl0BaK1HcOHmEYrdp_95-SiTv3WV8B2MnMKcVKGPrBh9aOjorN", "Escudo de madera", "Arma", 10));
+            items.add(new Item("The horn","https://png.pngtree.com/background/20230612/original/pngtree-wolf-animals-images-wallpaper-for-pc-384x480-picture-image_3180467.jpg", "+20faster", "Potion", 10));
+            items.add(new Item("Escudo","https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQl0BaK1HcOHmEYrdp_95-SiTv3WV8B2MnMKcVKGPrBh9aOjorN", "Escudo de madera", "Arma", 10));
+            items.add(new Item("Magnesi","https://png.pngtree.com/background/20230612/original/pngtree-wolf-animals-images-wallpaper-for-pc-384x480-picture-image_3180467.jpg", "+20faster", "Potion", 10));
+            items.add(new Item("Escudo","https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQl0BaK1HcOHmEYrdp_95-SiTv3WV8B2MnMKcVKGPrBh9aOjorN", "Escudo de madera", "Arma", 10));
             logger.info("Items added to the shop");
             return items;
         }

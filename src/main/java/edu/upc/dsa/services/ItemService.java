@@ -35,7 +35,6 @@ public class ItemService {
     public Response getItems() {
 
         List<Item> items = this.tm.ShopItems();
-
         GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(items) {};
         return Response.status(201).entity(entity).build()  ;
 

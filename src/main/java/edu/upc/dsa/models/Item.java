@@ -1,12 +1,18 @@
 package edu.upc.dsa.models;
 
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 public class Item {
     int id;
     String name;
+    String image;
     String description;
     String type;
     double price;
@@ -15,12 +21,21 @@ public class Item {
 
     }
 
-    public Item(String name, String description, String type, double price) {
+    public Item(String name,String imageUrl, String description, String type, double price) {
         this();
         this.setName(name);
+        this.setImage(imageUrl);
         this.setDescription(description);
         this.setType(type);
         this.setPrice(price);
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getName() {
