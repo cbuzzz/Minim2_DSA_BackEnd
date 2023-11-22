@@ -20,7 +20,6 @@
                 var newItem = $("<div class='escape-room-item'></div>");
 
             newItem.append("<h2>" + data[key].name + "</h2>");
-            newItem.append("<img src='" + data[key].imageUrl + "' alt='Escape Room Item'>");
             newItem.append("<p>Description: " + data[key].description + "</p>");
             newItem.append("<p>Type: " + data[key].type + "</p>");
             newItem.append("<p>Price: " + data[key].price + "</p>");
@@ -40,15 +39,6 @@
     <div class="shop-container">
         <h1 class="custom-font">SHOP</h1>
         <p>Welcome to the shop. Please identify yourself</p>
-        <div id="registrationForm">
-            <form>
-                <label for="userID">User ID:</label>
-                <input type="text" id="userID" name="userID" required>
-                <br>
-                <button type="submit">Identify</button>
-                <br>
-            </form>
-        </div>
     </div>
 
     <div id="itemsContainer">
@@ -56,10 +46,10 @@
         <!-- Aquí es donde se agregarán dinámicamente los elementos de la tienda -->
     </div>
 
-    <div>
-        <br>
-        <a href="login.html" class="btn custom-btnShop">Login</a>
-        <a href="register.html" class="btn custom-btnShop">Register</a>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block" id="logoutButton">Log Out</button>
+        <div class="signup-link">
+        </div>
     </div>
 </div>
 </body>
