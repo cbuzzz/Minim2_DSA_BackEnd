@@ -26,9 +26,9 @@ public class PlayerService{
         public PlayerService() throws UsernameInUseException {
             this.pm = PlayerManagerImpl.getInstance();
             if (pm.getPlayers().size() == 0) {
-                pm.registerPlayer(new Player("Andrei", "1234", "680739345", "andrei@upc.edu"));
-                pm.registerPlayer(new Player("Pau", "3334", "680739346", "pau@gmail.com"));
-                pm.registerPlayer(new Player("Marc", "4444", "680739347", "Marc@yahoo.es"));
+                //pm.registerPlayer(new Player("Andrei", "1234", "680739345", "andrei@upc.edu"));
+                //pm.registerPlayer(new Player("Pau", "3334", "680739346", "pau@gmail.com"));
+                //pm.registerPlayer(new Player("Marc", "4444", "680739347", "Marc@yahoo.es"));
             }
         }
 

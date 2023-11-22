@@ -23,7 +23,6 @@ public class PlayerManagerTest {
         this.instance = new PlayerManagerImpl();
         this.instance.registerPlayer(new Player("Andrei", "1234", "680739345", "andreipiposi@gmail.com"));
         this.instance.registerPlayer(new Player("Pau", "3334", "680739346", "pauquintano@gmail.com"));
-        this.instance.registerPlayer(new Player("Hauses", "4444", "680739347", "mirey@gmail.com"));
         this.instance.loginPlayer(new Login("Andrei", "1234"));
     }
 
@@ -36,8 +35,8 @@ public class PlayerManagerTest {
     public void testRegisterPlayer() throws UsernameInUseException {
         Player p = new Player("Marc", "3455", "680739348", "marcq@gmail.com");
         this.instance.registerPlayer(p);
-        Assert.assertEquals(4, this.instance.playerNumber());
-        Assert.assertEquals(4,this.instance.size());
+        Assert.assertEquals(3, this.instance.playerNumber());
+        Assert.assertEquals(3,this.instance.size());
     }
 
     @Test
