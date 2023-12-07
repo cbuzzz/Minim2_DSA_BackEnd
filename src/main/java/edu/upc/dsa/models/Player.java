@@ -1,8 +1,4 @@
 package edu.upc.dsa.models;
-import edu.upc.dsa.util.RandomUtils;
-
-import java.util.List;
-import java.util.ArrayList;
 
 
 public class Player {
@@ -14,7 +10,7 @@ public class Player {
     private String email;
 
     //private int level;
-    //private double coins;
+    private int coins;
     //private List<Item> Inventario = new ArrayList<>();
 
     public Player() {
@@ -27,6 +23,7 @@ public class Player {
         this.setPassword(password);
         this.setTelephoneNumber(telephoneNumber);
         this.setEmail(email);
+        this.coins = 300;
     }
 
     //public String getId() {
@@ -53,9 +50,9 @@ public class Player {
     //    return level;
     //}
 
-    //public double getCoins() {
-    //    return coins;
-    // }
+    public int getCoins() {
+        return coins;
+    }
 
     //public void setId(String id) {
     //    this.id=id;
@@ -81,9 +78,9 @@ public class Player {
     //    this.level=level;
     //}
 
-    //public void setCoins(double coins) {
-    //    this.coins=coins;
-    //}
+    public void setCoins(int coins) {
+        this.coins=coins;
+    }
 
     //public List<Item> getInventario() {
     //    return Inventario;
@@ -92,4 +89,11 @@ public class Player {
     //public void setInventario(List<Item> inventario) {
     //    Inventario = inventario;
     //}
+
+    public void updatePlayer(Player p) {
+        this.setUsername(p.getUsername());
+        this.setPassword(p.getPassword());
+        this.setTelephoneNumber(p.getTelephoneNumber());
+        this.setEmail(p.getEmail());
+    }
 }

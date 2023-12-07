@@ -1,4 +1,4 @@
-package edu.upc.dsa;
+package edu.upc.dsa.CRUD.DAO;
 
 import edu.upc.dsa.exceptions.*;
 import edu.upc.dsa.models.Player;

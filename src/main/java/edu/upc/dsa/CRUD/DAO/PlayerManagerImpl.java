@@ -1,11 +1,10 @@
-package edu.upc.dsa;
+package edu.upc.dsa.CRUD.DAO;
 
 import edu.upc.dsa.exceptions.*;
 
 import java.util.List;
 import java.util.LinkedList;
 import java.util.HashMap;
-import java.util.Map;
 
 import edu.upc.dsa.models.Login;
 import edu.upc.dsa.models.Player;

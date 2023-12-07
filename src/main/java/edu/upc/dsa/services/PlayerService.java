@@ -1,7 +1,7 @@
 package edu.upc.dsa.services;
 
-import edu.upc.dsa.PlayerManagerImpl;
-import edu.upc.dsa.PlayerManager;
+import edu.upc.dsa.CRUD.DAO.PlayerManagerImpl;
+import edu.upc.dsa.CRUD.DAO.PlayerManager;
 import edu.upc.dsa.exceptions.*;
 import edu.upc.dsa.models.Player;
 import edu.upc.dsa.models.Login;
@@ -11,11 +11,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
-
 
 
 @Api(value = "/player", description = "Endpoint to Player Service")

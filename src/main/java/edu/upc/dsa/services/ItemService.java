@@ -1,7 +1,7 @@
 package edu.upc.dsa.services;
 
-import edu.upc.dsa.ItemManager;
-import edu.upc.dsa.ItemManagerImpl;
+import edu.upc.dsa.CRUD.DAO.ItemManager;
+import edu.upc.dsa.CRUD.DAO.ItemManagerImpl;
 import edu.upc.dsa.models.Item;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
