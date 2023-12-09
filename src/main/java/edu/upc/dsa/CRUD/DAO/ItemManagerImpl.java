@@ -1,13 +1,15 @@
 package edu.upc.dsa.CRUD.DAO;
 
-
-import java.util.LinkedList;
+import edu.upc.dsa.CRUD.FactorySession;
+import edu.upc.dsa.CRUD.Session;
 import java.util.List;
 import edu.upc.dsa.models.Item;
-import org.apache.log4j.Logger;
+
+
 
 public class ItemManagerImpl implements ItemManager {
 
+        /*
         private static ItemManager instance;
         protected List<Item> items;
         final static Logger logger = Logger.getLogger(ItemManagerImpl.class);
@@ -32,4 +34,32 @@ public class ItemManagerImpl implements ItemManager {
             logger.info("Items added to the shop");
             return items;
         }
+        */
+    public List<Item> getItems() {
+        Session session = null;
+        List<Item> items = null;
+        try {
+            session = FactorySession.openSession();
+            items = session.findAll(Item.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return items;
+    }
+
+    public Item getItemByName(String nameItem) {
+        Session session = null;
+        Item item = null;
+        try {
+            session = FactorySession.openSession();
+            item = (Item) session.select(Item.class, "name", nameItem);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return item;
+    }
 }
