@@ -16,6 +16,7 @@ public class Item {
     String description;
     String type;
     double price;
+    private BufferedImage imagen;
 
     public Item() {
 
@@ -28,6 +29,9 @@ public class Item {
         this.setType(type);
         this.setPrice(price);
     }
+
+
+
 
     public String getName() {
         return name;

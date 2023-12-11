@@ -13,25 +13,58 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-            $(document).ready(function () {
-            var url = "dsaApp/items/shop";
-            $.get(url, function (data) {
-                for (var key = 0; key < 6; key++) {
-                var newItem = $("<div class='escape-room-item'></div>");
+    $(document).ready(function () {
+    var url = "http://localhost:8080/dsaApp/items/shop";
+    $.get(url, function (data) {
+        for (var key = 0; key < data.length; key++) {
+            var newItem = $("<div class='escape-room-item'></div>");
 
-            newItem.append("<h2>" + data[key].name + "</h2>");
-            newItem.append("<p>Description: " + data[key].description + "</p>");
-            newItem.append("<p>Type: " + data[key].type + "</p>");
-            newItem.append("<p>Price: " + data[key].price + "</p>");
+            newItem.append("<h2 class='name'>" + data[key].name + "</h2>");
+            newItem.append("<p class='description'>Description: " + data[key].description + "</p>");
+            newItem.append("<p class='type'>Type: " + data[key].type + "</p>");
+            newItem.append("<p class='price'>Price: " + data[key].price + "</p>");
+
+            // Agregar campo de entrada y botón de compra
+            newItem.append("<label for='quantity'>Quantity:</label>");
+            newItem.append("<input type='number' class='quantity' name='quantity' min='1' value='1'>");
+
+            // Modificación: Cambié el id a una clase y agregué un atributo data para identificación
+            newItem.append("<button type='button' class='btn btn-primary btn-block purchaseItemButton' data-item-id='" + data[key].id + "' data-description='" + data[key].description + "'>Purchase</button>");
 
             $("#itemsContainer").append(newItem);
-                }
-            });
+        }
 
-            $("#logoutButton").click(function () {
-                location.href = "/login.html"
+        // Modificación: Agregar el evento onclick para los botones de compra
+        $(".purchaseItemButton").click(function () {
+                var dataBody = {
+                name: $("#name").val(),
+                description: $("#description").val()
+            };
+
+            console.log(dataBody);
+
+            var URL = "http://localhost:8080/dsaApp/items/purchaseItem";
+            $.post({
+                url: URL,
+                data: JSON.stringify(dataBody),
+                contentType: 'application/json; charset=utf-8'
+            })
+            .done(function (data, status) {
+                alert("Purchase successful");
+
+            })
+            .fail(function (xhr, err) {
+                alert(err + " : " + xhr.responseText);
+                location.reload();
             });
         });
+    });
+
+    $("#logoutButton").click(function () {
+        location.href = "/login.html";
+    });
+});
+
     </script>
 </head>
 <body>
@@ -50,6 +83,7 @@
         <button type="submit" class="btn btn-primary btn-block" id="logoutButton">Log Out</button>
         <div class="signup-link">
         </div>
+        v0 333333333
     </div>
 </div>
 </body>

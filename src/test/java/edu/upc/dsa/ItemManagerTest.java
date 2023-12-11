@@ -1,8 +1,6 @@
 package edu.upc.dsa;
 
 
-import edu.upc.dsa.CRUD.DAO.ItemManager;
-import edu.upc.dsa.CRUD.DAO.ItemManagerImpl;
 import org.apache.log4j.Logger;
 
 import org.junit.After;
