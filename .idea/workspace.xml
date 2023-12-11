@@ -4,19 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c81be3c7-98a2-43e5-a4e4-4315a77ee2f1" name="Changes" comment="Nuevos cambios para iteración2">
+    <list default="true" id="c81be3c7-98a2-43e5-a4e4-4315a77ee2f1" name="Changes" comment="Hecho ObjcetHelper, QueryHelper, Session, SessionImpl, FactorySession.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/DAO/ItemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/DAO/ItemManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/DAO/ItemManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/DAO/ItemManagerImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/DAO/PlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/DAO/PlayerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/FactorySession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/FactorySession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/Session.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/SessionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/SessionImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/DAO/PlayerManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/DAO/PlayerManagerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/FactorySession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/MYSQL/FactorySession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/MYSQL/Session.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/SessionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/MYSQL/SessionImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/util/ObjectHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/util/ObjectHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/util/QueryHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/CRUD/util/QueryHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Game.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Map.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/PurchasedItem.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -250,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701972159919</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Hecho ObjcetHelper, QueryHelper, Session, SessionImpl, FactorySession.">
+      <option name="closed" value="true" />
+      <created>1702156857791</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1702156857791</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -261,7 +267,8 @@
     <MESSAGE value="Hemos pasado a HASHMAP (cambio de toda estructura)" />
     <MESSAGE value="Actualizació README.md per la iteració 1" />
     <MESSAGE value="Nuevos cambios para iteración2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Nuevos cambios para iteración2" />
+    <MESSAGE value="Hecho ObjcetHelper, QueryHelper, Session, SessionImpl, FactorySession." />
+    <option name="LAST_COMMIT_MESSAGE" value="Hecho ObjcetHelper, QueryHelper, Session, SessionImpl, FactorySession." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

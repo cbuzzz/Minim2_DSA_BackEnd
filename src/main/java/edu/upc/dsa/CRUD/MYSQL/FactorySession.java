@@ -1,4 +1,4 @@
-package edu.upc.dsa.CRUD;
+package edu.upc.dsa.CRUD.MYSQL;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,17 +6,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class FactorySession {
+
+    public FactorySession() {
+    }
+
     public static Session openSession() {
         Connection conn = getConnection();
-        Session session = new SessionImpl(conn);
-        return session;
+        return new SessionImpl(conn);
     }
 
     private static Connection getConnection(){
         Connection conn = null;
         try {
             // AQUESTA URL ES LA BONA???
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_juego_2023", "Nani", "1234");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?" + "user=root&password=projecteG2");
+            System.out.println("Connection established");
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -26,7 +30,7 @@ public class FactorySession {
         return conn;
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         Connection conn = getConnection();
         Statement stmt = null;
         try {
@@ -36,5 +40,5 @@ public class FactorySession {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-    }
+    } */
 }

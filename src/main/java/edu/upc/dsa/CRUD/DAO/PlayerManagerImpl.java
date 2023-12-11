@@ -2,6 +2,7 @@ package edu.upc.dsa.CRUD.DAO;
 
 import edu.upc.dsa.exceptions.*;
 
+
 import java.util.List;
 import java.util.LinkedList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ public class PlayerManagerImpl implements PlayerManager {
 
     private static PlayerManager instance;
     final static Logger logger = Logger.getLogger(PlayerManagerImpl.class);
+
     protected List<Player> players;
     protected List<Player> logins;
     private HashMap<String, Player> playerHashMap;

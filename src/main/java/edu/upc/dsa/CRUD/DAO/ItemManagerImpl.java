@@ -1,7 +1,7 @@
 package edu.upc.dsa.CRUD.DAO;
 
-import edu.upc.dsa.CRUD.FactorySession;
-import edu.upc.dsa.CRUD.Session;
+import edu.upc.dsa.CRUD.MYSQL.FactorySession;
+import edu.upc.dsa.CRUD.MYSQL.Session;
 import java.util.List;
 import edu.upc.dsa.models.Item;
 
@@ -40,7 +40,6 @@ public class ItemManagerImpl implements ItemManager {
         List<Item> items = null;
         try {
             session = FactorySession.openSession();
-            items = session.findAll(Item.class);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -54,7 +53,7 @@ public class ItemManagerImpl implements ItemManager {
         Item item = null;
         try {
             session = FactorySession.openSession();
-            item = (Item) session.select(Item.class, "name", nameItem);
+            item = (Item) session.get(Item.class, "name", nameItem);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
