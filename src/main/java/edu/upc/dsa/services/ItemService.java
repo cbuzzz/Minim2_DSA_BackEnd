@@ -42,13 +42,14 @@ public class ItemService {
         GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(items) {};
         return Response.status(201).entity(entity).build()  ;
 
-    }
-    @POST
+    }/*
+    @PUT
     @ApiOperation(value = "Buy an item from the shop", notes = "Buy items")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful"),
+            @ApiResponse(code = 409, message = "Wrong id."),
             @ApiResponse(code = 403, message = "Not enough money"),
-            @ApiResponse(code = 409, message = "Player not found")
+            @ApiResponse(code = 409, message = "Item does not exist")
     })
     @Path("/items/purchase/{idItem}/{idPlayer}")
     public Response purchaseItem(@PathParam("idItem")String idItem,@PathParam("idPlayer") String idPlayer) {
@@ -66,5 +67,5 @@ public class ItemService {
             return Response.status(409).build();
         }
     }
-    }
+    */
 }

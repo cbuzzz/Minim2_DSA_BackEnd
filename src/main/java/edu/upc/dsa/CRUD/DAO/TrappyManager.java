@@ -13,7 +13,7 @@ public interface TrappyManager {
     /** Player **/
     public int numPlayers();
 
-    public void registerPlayer(String username, String password, String telephoneNumber, String email) throws EmailInUseException, SQLException;
+    public void registerPlayer(String username, String password, String telephoneNumber, String email) throws EmailInUseException,UsernameInUseException, SQLException;
 
     public String loginPlayer(Login credentials) throws IncorrectCredentialsException, SQLException;
 
@@ -35,19 +35,19 @@ public interface TrappyManager {
 
 
     /** Item **/
-    public void addItem(String id, String name, String description, String type, double price);
+    public void addItem(String id, String name, String description, String type, double price) throws SQLException,ItemWithSameIdAlreadyExists ;
 
     public int numItems();
 
     public List<Item> getShop();
 
-    public Item getItem(String itemId);
+    public Item getItem(String itemId) throws ItemDoesNotExist;
 
-    public void deleteItem(String itemId);
+    public Item deleteItem(String itemId) throws ItemDoesNotExist;
 
     public int getItemPrice(String itemId);
 
-    public void purchaseItem(String idItem, String idPlayer);
+    public void purchaseItem(String idItem, String idPlayer) throws ItemDoesNotExist,NoCoinsForBuyException, PlayerNotResgisteredException,SQLException;
 
 
     /**Partida**/

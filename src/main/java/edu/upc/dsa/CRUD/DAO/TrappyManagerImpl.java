@@ -34,7 +34,7 @@ public class TrappyManagerImpl implements TrappyManager {
         logger.info("Number of players");
         return this.session.findAll(Player.class).size();
     }
-
+    //Register's a player into the system
     @Override
     public void registerPlayer(String username, String password, String telephoneNumber, String email) throws EmailInUseException,SQLException {
         logger.info("Register a player");
@@ -49,6 +49,7 @@ public class TrappyManagerImpl implements TrappyManager {
         throw new EmailInUseException();
     }
 
+    //Log-in's a player into the system
     @Override
     public String loginPlayer(Login credentials) throws IncorrectCredentialsException, SQLException {
         logger.info("Login a player");
@@ -64,7 +65,7 @@ public class TrappyManagerImpl implements TrappyManager {
         logger.info("Login was incorrect!");
         throw new IncorrectCredentialsException();
     }
-
+    //Updates a player's information
     @Override
     public void updatePlayer(UserInformation newuser, String idUser) throws SQLException {
         Player player = new Player();
@@ -86,8 +87,9 @@ public class TrappyManagerImpl implements TrappyManager {
             logger.warn("Invalid Email");
         }
     }
+    //Purchase an item from the shop
     @Override
-    public void purchaseItem(String idItem, String idPlayer){
+    public void purchaseItem(String idItem, String idPlayer) throws ItemDoesNotExist,NoCoinsForBuyException, PlayerNotResgisteredException, SQLException {
         logger.info("Starting purchaseItem("+idItem+", "+idPlayer+")");
 
         Item item = getItem(idItem);
@@ -105,18 +107,46 @@ public class TrappyManagerImpl implements TrappyManager {
         this.session.save(purchase);
     }
 
+    //Adds an item to the shop
     @Override
-    public void addItem(String id, String name, String description, String type, double price) {
+    public void addItem(String idItem, String name, String description, String type, double price) throws SQLException,ItemWithSameIdAlreadyExists {
         logger.info("Adding item");
-        Item item = new Item(id, name, description, type, price);
+        Item item = new Item(idItem, name, description, type, price);
         try{
-            item = (Item) this.session.get(Item.class,"id",id);
+            item = (Item) this.session.get(Item.class,"id",idItem);
         } catch(SQLException e) {
             this.session.save(item);
-            logger.info("Item has been added correctly" + item.getName());
+            logger.info("Item has been added correctly" + item.getId());
             return;
         }
+        logger.info("Item cannot be added because this id is already been used :(");
+        throw new ItemWithSameIdAlreadyExists();
     }
+    //Returns an item by its ID
+    @Override
+    public Item getItem(String idItem) throws ItemDoesNotExist{
+        try{
+            Item item = (Item) this.session.get(Item.class,"id",(idItem));
+            return item;
+        } catch(SQLException e){
+            logger.warn("Item does not exist");
+            throw new ItemDoesNotExist();
+        }
+    }
+    //Deletes an item by its ID
+    @Override
+    public Item deleteItem(String idItem) throws ItemDoesNotExist {
+        try{
+            Item item = (Item) this.session.get(Item.class, "id", (idItem));
+            this.session.delete(item);
+            return item;
+        } catch (SQLException e) {
+            logger.warn("Item does not exist");
+            throw new ItemDoesNotExist();
+        }
+    }
+
+
 
 
     /*
