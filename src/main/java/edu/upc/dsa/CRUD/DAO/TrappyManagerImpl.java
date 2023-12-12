@@ -31,9 +31,8 @@ public class TrappyManagerImpl implements TrappyManager {
 
     @Override
     public int numPlayers(){
-        int ret = this.session.count(Player.class);
-        logger.info("numPlayers "+ret);
-        return ret;
+        logger.info("Number of players");
+        return this.session.findAll(Player.class).size();
     }
 
     @Override
@@ -51,23 +50,21 @@ public class TrappyManagerImpl implements TrappyManager {
     }
 
     @Override
-    public String loginPlayer(Credentials credentials) throws IncorrectCredentialsException, SQLException {
-        logger.info("Starting logging...");
-        HashMap<String, String> credentialsHash = new HashMap<>();
-        credentialsHash.put("email", credentials.getEmail());
-        credentialsHash.put("password", credentials.getPassword());
-
-        List<Object> userMatch = this.session.findAll(Player.class, credentialsHash);
-
-        if (userMatch.size()!=0){
-            logger.info("Log in has been done correctly!");
-            Player player = (Player) userMatch.get(0);
-            return player.getUsername();
+    public String loginPlayer(Login credentials) throws IncorrectCredentialsException, SQLException {
+        logger.info("Login a player");
+        HashMap<String, String> player = new HashMap<>();
+        player.put("username", credentials.getUsername());
+        player.put("password", credentials.getPassword());
+        List<Object> playerMatch = this.session.findAll(Player.class, player);
+        if (playerMatch.size()!=0){
+            logger.info("Login was correct!");
+            Player player1 = (Player) playerMatch.get(0);
+            return player1.getUsername();
         }
-
-        logger.info("Incorrect credentials, try again.");
+        logger.info("Login was incorrect!");
         throw new IncorrectCredentialsException();
     }
+
     @Override
     public void updatePlayer(UserInformation newuser, String idUser) throws SQLException {
         Player player = new Player();
@@ -90,7 +87,7 @@ public class TrappyManagerImpl implements TrappyManager {
         }
     }
     @Override
-    public void purchaseItem(String idItem, String idPlayer) throws NoCoinsForBuyException, NoExistenItemException, UserPrincipalNotFoundException, SQLException {
+    public void purchaseItem(String idItem, String idPlayer){
         logger.info("Starting purchaseItem("+idItem+", "+idPlayer+")");
 
         Item item = getItem(idItem);
@@ -99,19 +96,27 @@ public class TrappyManagerImpl implements TrappyManager {
         try {
             player.purchaseItem(item);
         } catch (NoCoinsForBuyException e) {
-            logger.warn("Not enough money exception");
-            throw new NoCoinsForBuyException();
+            logger.warn("Not enough coins for buy");
         }
-        logger.info("Gadget bought");
+        logger.info("Item bought");
         this.session.update(player);
 
-        Purchase purchase= new Purchase(idPlayer,idItem);
+        Purchase purchase = new Purchase(idPlayer,idItem);
         this.session.save(purchase);
     }
 
-
-
-
+    @Override
+    public void addItem(String id, String name, String description, String type, double price) {
+        logger.info("Adding item");
+        Item item = new Item(id, name, description, type, price);
+        try{
+            item = (Item) this.session.get(Item.class,"id",id);
+        } catch(SQLException e) {
+            this.session.save(item);
+            logger.info("Item has been added correctly" + item.getName());
+            return;
+        }
+    }
 
 
     /*

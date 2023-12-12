@@ -10,14 +10,12 @@ import java.util.Map;
 
 public interface TrappyManager {
 
-    /**
-     * Player
-     **/
+    /** Player **/
     public int numPlayers();
 
     public void registerPlayer(String username, String password, String telephoneNumber, String email) throws EmailInUseException, SQLException;
 
-    public String loginPlayer(Credentials credentials) throws IncorrectCredentialsException, SQLException;
+    public String loginPlayer(Login credentials) throws IncorrectCredentialsException, SQLException;
 
     public List<Player> getPlayers();
 
@@ -35,10 +33,9 @@ public interface TrappyManager {
 
     public Player getPlayerByEmail(String email);
 
-    /**
-     * Item
-     **/
-    public void addItem(Item i);
+
+    /** Item **/
+    public void addItem(String id, String name, String description, String type, double price);
 
     public int numItems();
 
@@ -50,6 +47,13 @@ public interface TrappyManager {
 
     public int getItemPrice(String itemId);
 
-    public void purchaseItem(String idItem, String idPlayer) throws NoCoinsForBuyException, NoExistenItemException, UserPrincipalNotFoundException, SQLException;
+    public void purchaseItem(String idItem, String idPlayer);
+
+
+    /**Partida**/
+    public void createPartida(Partida p);
+    public void updatePartida(Partida p);
+    public int numPartidas();
+    public List<Partida> getAllPartidas();
 
 }

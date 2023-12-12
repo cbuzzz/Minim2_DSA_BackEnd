@@ -10,28 +10,31 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 public class Item {
-    int id;
-    String name;
 
+    String id;
+    String name;
     String description;
     String type;
     double price;
-    private BufferedImage imagen;
+
+    //private BufferedImage imagen;
 
     public Item() {
 
     }
 
-    public Item(String name, String description, String type, double price) {
+    public Item(String id, String name, String description, String type, double price) {
         this();
+        this.setId(id);
         this.setName(name);
         this.setDescription(description);
         this.setType(type);
         this.setPrice(price);
     }
 
-
-
+    public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -49,8 +52,8 @@ public class Item {
         return price;
     }
 
-    public int getId() {
-        return id;
+    public void setId(String id) {
+        this.id=id;
     }
 
     public void setName(String name) {
@@ -69,10 +72,8 @@ public class Item {
         this.price=price;
     }
 
-    public void setId(int id) {
-        this.id=id;
-    }
 
+    @Override
     public String toString() {
         return "Item [id="+id+", name="+name+", description="+description+", type="+type+", prize="+price+"]";
     }
