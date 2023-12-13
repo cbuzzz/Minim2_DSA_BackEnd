@@ -1,236 +1,116 @@
 package edu.upc.dsa.CRUD.DAO;
 
-import edu.upc.dsa.exceptions.*;
-
-import java.util.ArrayList;
-import java.util.Map;
-import org.apache.log4j.Logger;
+import edu.upc.dsa.CRUD.DAO.ItemManager;
+import edu.upc.dsa.CRUD.DAO.PlayerManager;
+import edu.upc.dsa.CRUD.DAO.PlayerManagerImpl;
+import edu.upc.dsa.CRUD.DAO.ItemManagerImpl;
 import edu.upc.dsa.CRUD.MYSQL.FactorySession;
 import edu.upc.dsa.CRUD.MYSQL.Session;
+import edu.upc.dsa.exceptions.*;
 import edu.upc.dsa.models.*;
-import java.util.HashMap;
+import org.apache.log4j.Logger;
+
 import java.sql.SQLException;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.HashMap;
 
 
 public class TrappyManagerImpl implements TrappyManager {
-    Session session;
+
     private static TrappyManager instance;
     final static Logger logger = Logger.getLogger(TrappyManagerImpl.class);
+
+    private HashMap<String, Player> trappyplayersMap;
+    protected List<Item> items;
     protected List<Player> players;
-    protected List<Player> logins;
-    private HashMap<String,Player> playerHashMap;
-    public TrappyManagerImpl() {
-        this.session = FactorySession.openSession();
+    protected List<Player> playerslogged;
+
+    private TrappyManagerImpl() {
+        this.trappyplayersMap = new HashMap<>();
+        this.items = new LinkedList<>();
+        this.players = new LinkedList<>();
+        this.playerslogged = new LinkedList<>();
     }
 
     public static TrappyManager getInstance() {
-        if (instance==null) instance = new TrappyManagerImpl();
+        if (instance == null) instance = new TrappyManagerImpl();
         return instance;
     }
 
-    @Override
-    public int numPlayers(){
-        logger.info("Number of players");
-        return this.session.findAll(Player.class).size();
-    }
-    @Override
-    public int numItems() {
-        return this.session.findAll(Item.class).size();
+    public List<Player> getPlayers(){
+        return players;
     }
 
+    public int size(){
+        int ret = this.players.size();
+        logger.info("size " + ret);
+        return ret;
+    }
 
-    //Register's a player into the system
     @Override
-    public void registerPlayer(String username, String password, String telephoneNumber, String email) throws UsernameInUseException,SQLException {
-        logger.info("Register a player");
-        Player player = new Player(username, password, telephoneNumber, email);
+    public int PlayerSize(){
+        int ret = this.players.size();
+        return ret;
+    }
+
+    @Override
+    public int PlayersLoginSize(){
+        int ret = this.playerslogged.size();
+        return ret;
+    }
+
+    @Override
+    public int ItemSize(){
+        int ret = this.items.size();
+        return ret;
+    }
+
+    @Override
+    public Player registerPlayer(Player p) throws UsernameInUseException, EmailInUseException {
+        Player player = trappyplayersMap.get(p.getEmail());
+        if(player == null){
+            String idPlayer = p.getId();
+            String username = p.getUsername();
+            String password = p.getPassword();
+            String telephoneNumber = p.getTelephoneNumber();
+            String email = p.getEmail();
+            PlayerManager pm = new PlayerManagerImpl();
+            pm.addPlayer(idPlayer, username, password, telephoneNumber, email);
+            logger.info("Player registered");
+            return p;
+        }else{
+            logger.info("Username or email already in use");
+            throw new UsernameInUseException();
+        }
+    }
+
+    @Override
+    public Player loginPlayer(Login login) throws PlayerNotResgisteredException, PasswordNotMatchException {
         try{
-            player = (Player) this.session.get(Player.class,"username",username);
-        } catch(SQLException e){
-            this.session.save(player);
-            logger.info("Player has been added correctly"+player.getUsername());
-        }
-        logger.info("User not registered, username already in use");
-        throw new UsernameInUseException();
-    }
-
-    //Log-in's a player into the system
-    @Override
-    public String loginPlayer(Login credentials) throws IncorrectCredentialsException, SQLException {
-        logger.info("Login a player");
-        HashMap<String, String> player = new HashMap<>();
-        player.put("username", credentials.getUsername());
-        player.put("password", credentials.getPassword());
-        List<Object> playerMatch = this.session.findAll(Player.class, player);
-        if (playerMatch.size()!=0){
-            logger.info("Login was correct!");
-            Player player1 = (Player) playerMatch.get(0);
-            return player1.getUsername();
-        }
-        logger.info("Login was incorrect!");
-        throw new IncorrectCredentialsException();
-    }
-
-    @Override
-    public Map<String, Player> getPlayers() {
-        logger.info("Getting all players...");
-        List<Object> usersList= this.session.findAll(Player.class);
-        HashMap<String, Player> users = new HashMap<>();
-        for(int i = 0; i < usersList.size(); i++) {
-            Player player = (Player) usersList.get(i);
-            users.put(player.getId(), player);
-        }
-        logger.info("User list has been created correctly its size is: "+usersList.size());
-        return users;
-    }
-
-    @Override
-    public Player getPlayer(String idPlayer) throws PlayerNotResgisteredException {
-        logger.info("Getting player with id: "+idPlayer);
-        try {
-            Player player = (Player) this.session.get(Player.class, "id", (idPlayer));
-            return player;
-        } catch(SQLException e) {
-            logger.warn("Player does not exist EXCEPTION");
-            throw new PlayerNotResgisteredException();
-        }
-    }
-
-    @Override
-    public List<Item> itemList() {
-        logger.info("Getting all items...");
-        List<Object> items = this.session.findAll(Item.class);
-        List<Item> res = new ArrayList<>();
-        for (Object o : items){
-            res.add((Item) o);
-        }
-        logger.info("The list of items has a size of "+res.size());
-        return res;
-    }
-
-
-
-    //Updates a player's information
-    @Override
-    public void updatePlayer(UserInformation newuser, String idUser) throws SQLException {
-        Player player = new Player();
-        try {
-            player = (Player) this.session.get(Player.class, "idUser", idUser);
-            logger.info("UPDATING THE USER");
-        } catch(SQLException e) {
-            logger.info("User does not exist EXCEPTION");
-        }
-        try {
-            logger.info("UPDATING THE USER:");
-            player.setUsername(newuser.getUsername());
-            player.setPassword(newuser.getPassword());
-            player.setTelephoneNumber(newuser.getTelephoneNumber());
-            player.setEmail(newuser.getEmail());
-            logger.info(player);
-            this.session.update(player);
-        } catch(SQLException e) {
-            logger.warn("Invalid Email");
-        }
-    }
-
-
-    //Purchase an item from the shop
-    @Override
-    public void purchaseItem(String idItem, String idPlayer) throws ItemDoesNotExist,NoCoinsForBuyException, PlayerNotResgisteredException, SQLException {
-        logger.info("Starting purchaseItem("+idItem+", "+idPlayer+")");
-
-        Item item = getItem(idItem);
-        Player player = getPlayer(idPlayer);
-
-        try {
-            player.purchaseItem(item);
-        } catch (NoCoinsForBuyException e) {
-            logger.warn("Not enough coins for buy");
-        }
-        logger.info("Item bought");
-        this.session.update(player);
-
-        Purchase purchase = new Purchase(idPlayer,idItem);
-        this.session.save(purchase);
-    }
-
-    //Adds an item to the shop
-    @Override
-    public void addItem(String idItem, String name, String description, String type, double price) throws SQLException,ItemWithSameIdAlreadyExists {
-        logger.info("Adding item");
-        Item item = new Item(idItem, name, description, type, price);
-        try{
-            item = (Item) this.session.get(Item.class,"id",idItem);
-        } catch(SQLException e) {
-            this.session.save(item);
-            logger.info("Item has been added correctly" + item.getId());
-            return;
-        }
-        logger.info("Item cannot be added because this id is already been used :(");
-        throw new ItemWithSameIdAlreadyExists();
-    }
-
-
-    //Returns an item by its ID
-    @Override
-    public Item getItem(String idItem) throws ItemDoesNotExist{
-        try{
-            Item item = (Item) this.session.get(Item.class,"id",(idItem));
-            return item;
-        } catch(SQLException e){
-            logger.warn("Item does not exist");
-            throw new ItemDoesNotExist();
-        }
-    }
-
-    //Deletes an item by its ID
-    @Override
-    public Item deleteItem(String idItem) throws ItemDoesNotExist {
-        try{
-            Item item = (Item) this.session.get(Item.class, "id", (idItem));
-            this.session.delete(item);
-            return item;
-        } catch (SQLException e) {
-            logger.warn("Item does not exist");
-            throw new ItemDoesNotExist();
-        }
-    }
-
-
-
-
-
-
-    /*
-    @Override
-    public List<Item> purchasedItems(String idUser) throws SQLException, NoExistenItemException {
-        logger.info("Looking for gadgets purchased by user with id: " + idUser);
-        HashMap<String, String> user = new HashMap<>();
-        user.put("idUser", idUser);
-
-        List<Object> purchaseMatch = this.session.findAll(Purchase.class, user);
-        List<Item> gadgetsOfUser=new ArrayList<>();
-
-        if (purchaseMatch.size()!=0){
-            logger.info("Purchase were found correctly for given user id!");
-            for(Object object : purchaseMatch) {
-                Purchase purchase = (Purchase) object;
-                try{
-                    gadgetsOfUser.add(this.getItem(purchase.getidItem()));
-                }
-                catch(Exception e){
-                    throw new NoExistenItemException();
-                }
+            PlayerManager pm = new PlayerManagerImpl();
+            HashMap<String, String> Login = new HashMap<>();
+            Login.put("username", login.getUsername());
+            Login.put("password", login.getPassword());
+            Player player = pm.getPlayerByUsername(login.getUsername());
+            if(player.getPassword().equals(login.getPassword())){
+                logger.info("Player logged");
+                return player;
+            }else if(player.getUsername() == null) {
+                logger.info("Player not registered");
+                throw new PlayerNotResgisteredException();
             }
-            return gadgetsOfUser;
+        } catch (Exception e){
+            logger.info("Password not match");
+            throw new PasswordNotMatchException();
         }
-        logger.info("No purchase was found for given user id");
-        throw new NoPurchaseWasFoundForIdUser();
+        return null;
     }
 
-     */
-
-
-
+    @Override
+    public List<Item> ShopTrappy(){
+        ItemManager im = new ItemManagerImpl();
+        List<Item> items = im.getItems();
+        return items;
+    }
 }

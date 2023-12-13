@@ -2,8 +2,12 @@ package edu.upc.dsa.CRUD.DAO;
 
 import edu.upc.dsa.CRUD.MYSQL.FactorySession;
 import edu.upc.dsa.CRUD.MYSQL.Session;
-import java.util.List;
 import edu.upc.dsa.models.Item;
+import org.apache.log4j.Logger;
+import java.util.List;
+import java.util.LinkedList;
+import java.sql.SQLException;
+import edu.upc.dsa.exceptions.NoExistenItemException;
 
 
 
@@ -35,11 +39,14 @@ public class ItemManagerImpl implements ItemManager {
             return items;
         }
         */
+
+    final static Logger logger = Logger.getLogger(ItemManagerImpl.class);
     public List<Item> getItems() {
         Session session = null;
         List<Item> items = null;
-        try {
+        try{
             session = FactorySession.openSession();
+            items = session.findAll(Item.class);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -48,14 +55,12 @@ public class ItemManagerImpl implements ItemManager {
         return items;
     }
 
-    public Item getItemByName(String nameItem) {
+    public Item getItemById(String idItem) throws NoExistenItemException, SQLException {
         Session session = null;
         Item item = null;
         try {
             session = FactorySession.openSession();
-            item = (Item) session.get(Item.class, "name", nameItem);
-        } catch (Exception e) {
-            e.printStackTrace();
+            item = (Item) session.get(Item.class, "idItem", idItem);
         } finally {
             session.close();
         }

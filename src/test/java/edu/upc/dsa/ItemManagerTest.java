@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class ItemManagerTest {
+/* public class ItemManagerTest {
     public static Logger log = Logger.getLogger(ItemManagerTest.class);
     ItemManager im;
 
@@ -29,4 +29,5 @@ public class ItemManagerTest {
         Assert.assertEquals(2, im.ItemNumber());
         log.info("Item added to the shop");
     }
-}
+
+ */

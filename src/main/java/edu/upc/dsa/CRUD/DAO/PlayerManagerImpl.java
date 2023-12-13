@@ -1,113 +1,136 @@
-/*
 package edu.upc.dsa.CRUD.DAO;
 
+import edu.upc.dsa.CRUD.*;
+import edu.upc.dsa.CRUD.MYSQL.FactorySession;
+import edu.upc.dsa.CRUD.MYSQL.Session;
+import edu.upc.dsa.CRUD.DAO.*;
 import edu.upc.dsa.exceptions.*;
+import edu.upc.dsa.models.*;
 
 
+import java.sql.SQLException;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.HashMap;
-
-import edu.upc.dsa.models.Login;
-import edu.upc.dsa.models.Player;
 import org.apache.log4j.Logger;
 
 
-public class PlayerManagerImpl implements PlayerManager {
+public class PlayerManagerImpl implements PlayerManager{
 
-    private static PlayerManager instance;
     final static Logger logger = Logger.getLogger(PlayerManagerImpl.class);
+    private static PlayerManagerImpl instance;
 
-    protected List<Player> players;
-    protected List<Player> logins;
-    private HashMap<String, Player> playerHashMap;
-
-
-    public static PlayerManager getInstance() {
-        if (instance==null)
-            instance = new PlayerManagerImpl();
+    public static PlayerManagerImpl getInstance() {
+        if (instance == null) instance = new PlayerManagerImpl();
         return instance;
     }
 
-    public int size() {
-        int ret = this.players.size();
-        logger.info("size " + ret);
-        return ret;
-    }
-
-    public PlayerManagerImpl() {
-        this.players = new LinkedList<>();
-        this.logins = new LinkedList<>();
-        this.playerHashMap = new HashMap<>();
-    }
-
-    //Give all the players
-    @Override
-    public List<Player> getPlayers() {
-        return this.players;
-    }
-
-    //Search a player by username and password
-    @Override
-    public Player searchPlayerUsernameAndPassword(String username, String password) {
-         for (Player p : this.players) {
-            if (p.getUsername().equals(username) && p.getPassword().equals(password)) {
-                return p;
-            }
+    public int addPlayer(String idPlayer, String username, String password, String telephoneNumber, String email){
+        Session session = null;
+        int res = 0;
+        try {
+            session = FactorySession.openSession();
+            Player player = new Player(idPlayer, username, password, telephoneNumber, email, 500);
+            session.save(player);
+            logger.info("Player added");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
-        return null;
+        return res;
     }
 
-    //Register a player
-    @Override
-    public Player registerPlayer(Player p) throws UsernameInUseException{
-        Player player = playerHashMap.get(p.getUsername());
-        if(player != null){
-            logger.warn("Username already in use");
-            throw new UsernameInUseException();
+    public Player getPlayer(String id){
+        Session session = null;
+        Player player = null;
+
+        try {
+            session = FactorySession.openSession();
+            player = (Player) session.get(Player.class, "id", id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
-        else{
-            this.players.add(p);
-            this.playerHashMap.put(p.getUsername(), p);
-            logger.info("New player registered");
-            return p;
-        }
+        return player;
     }
 
-    //Login a player
-    @Override
-    public Player loginPlayer(Login login) throws PlayerNotResgisteredException, PasswordNotMatchException {
-        String username = login.getUsername();
-        Player player = playerHashMap.get(username);
-        if(player == null){
-            logger.warn("Player not registered");
-            throw new PlayerNotResgisteredException();
-        }
-        else{
-            if(player.getPassword().equals(login.getPassword())){
-                this.logins.add(player);
-                logger.info("Player logged in");
-                return player;
-            }
-            else{
-                logger.warn("Password not match");
-                throw new PasswordNotMatchException();
-            }
+    public void deletePlayer(String idPlayer){
+        Session session = null;
+        try {
+            session = FactorySession.openSession();
+            Player player = (Player) session.get(Player.class, "id", idPlayer);
+            session.delete(player);
+            logger.info("Player deleted");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
     }
 
-    //Player number
-    @Override
-    public int playerNumber() {
-        return this.players.size();
+    public List<Player> getPlayers(){
+        Session session = null;
+        List<Player> players = null;
+        try {
+            session = FactorySession.openSession();
+            players = session.findAll(Player.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return players;
     }
 
-    //Log Number
-    @Override
-    public int logNumber() {
-        return this.logins.size();
+    public List<Item> getItemsFromPlayer(){
+        Session session = null;
+        List<Item> items = null;
+        try {
+            session = FactorySession.openSession();
+            items = session.findAll(Item.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return items;
+    }
+
+    public void buyItem(String idPlayer, String idItem) throws NoCoinsForBuyException, SQLException, NoExistenItemException {
+        logger.info("Buying item");
+        Session session = null;
+        ItemManager item = new ItemManagerImpl();
+        Item item1 = item.getItemById(idItem);
+        Player player = getPlayer(idPlayer);
+        logger.info(item1.getPrice());
+        try{
+            session = FactorySession.openSession();
+            player.purchaseItem(item1);
+            session.update(player);
+            logger.info("Item bought");
+        } catch (NoCoinsForBuyException e) {
+            logger.error("No coins for buy");
+            throw new NoCoinsForBuyException();
+        } catch (SQLException e) {
+            logger.error("SQL Exception");
+            throw new SQLException();
+        } finally {
+            session.close();
+        }
+    }
+
+    public Player getPlayerByUsername(String username){
+        Session session = null;
+        Player player = null;
+        try {
+            session = FactorySession.openSession();
+            player = (Player) session.get(Player.class, "username", username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return player;
     }
 }
-
-
- */

@@ -15,20 +15,19 @@ public class Item {
     String name;
     String description;
     String type;
-    double price;
+    int price;
 
     //private BufferedImage imagen;
 
     public Item() {
-
     }
 
-    public Item(String id, String name, String description, String type, double price) {
+    public Item(String id, String name, String description, String type, int price) {
         this();
-        this.setId(id);
-        this.setName(name);
-        this.setDescription(description);
-        this.setType(type);
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.type = type;
         this.setPrice(price);
     }
 
@@ -48,30 +47,29 @@ public class Item {
         return type;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
     public void setId(String id) {
-        this.id=id;
+        this.id = id;
     }
 
     public void setName(String name) {
-        this.name=name;
+    	this.name=name;
     }
 
     public void setDescription(String description) {
-        this.description=description;
+    	this.description=description;
     }
 
     public void setType(String type) {
-        this.type=type;
+    	this.type=type;
     }
 
-    public void setPrice(double price) {
-        this.price=price;
+    public void setPrice(int price) {
+    	this.price=price;
     }
-
 
     @Override
     public String toString() {

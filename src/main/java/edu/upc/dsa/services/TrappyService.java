@@ -1,5 +1,7 @@
 package edu.upc.dsa.services;
 
+import edu.upc.dsa.CRUD.DAO.PlayerManager;
+import edu.upc.dsa.CRUD.DAO.PlayerManagerImpl;
 import edu.upc.dsa.CRUD.DAO.TrappyManager;
 import edu.upc.dsa.CRUD.DAO.TrappyManagerImpl;
 
@@ -23,213 +25,95 @@ import java.util.HashMap;
 @Path("/trappy")
 
 public class TrappyService {
-    private TrappyManager tm;
     final static Logger logger = Logger.getLogger(TrappyService.class);
+    private TrappyManager tm;
+    private PlayerManager pm;
 
-    public TrappyService() throws SQLException, UsernameInUseException, EmailInUseException, NoExistenItemException, ItemWithSameIdAlreadyExists {
+    public TrappyService(){
         this.tm = TrappyManagerImpl.getInstance();
-        logger.info("TrappyService Started");
-        if (tm.numPlayers() == 0) {
-            this.tm.registerPlayer("Andrei", "1234", "680739345", "andrei@yahoo.es");
-            this.tm.registerPlayer("Pau", "3334", "680739346", "paulinho@upc.edu");
-            this.tm.registerPlayer("Marc", "4444", "680739347", "marcus@upc.edu");
-        }
-        if (tm.numItems() == 0) {
-            this.tm.addItem("1", "Potion", "Heals 20 HP", "Consumable", 20);
-            this.tm.addItem("2", "Sword", "Deals 20 damage", "Weapon", 20);
-            this.tm.addItem("3", "Shield", "Blocks 20 damage", "Armor", 20);
-        }
+        this.pm = PlayerManagerImpl.getInstance();
     }
 
-    //Post: Register a new player
     @POST
-    @ApiOperation(value = "Register a new player", notes = "asdasd")
+    @ApiOperation(value = "Player registration", notes = "Register a new player")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Player.class),
-            @ApiResponse(code = 409, message = "Username in use"),
-            @ApiResponse(code = 500, message = "Empty credentials")
-
+            @ApiResponse(code = 500, message = "Validation Error")
     })
     @Path("/player/register")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response registerPlayer(Player player) throws UsernameInUseException, SQLException {
-        if (player.getUsername() == "" || player.getPassword() == "" || player.getTelephoneNumber() == "" || player.getEmail() == "" )  return Response.status(100).entity(player).build();
-        try {
-            this.tm.registerPlayer(player.getUsername(),player.getPassword(),player.getTelephoneNumber(), player.getEmail());
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response registerPlayer(Player player) throws UsernameInUseException{
+        try{
+            this.tm.registerPlayer(player);
+            logger.info("Player added");
             return Response.status(201).entity(player).build();
-        }
-        catch(UsernameInUseException | SQLException E){
-            return Response.status(409).entity(player).build();
+        } catch (Exception e){
+            logger.error("Error");
+            return Response.status(500).build();
         }
     }
 
-    //Post: Login a player
     @POST
-    @ApiOperation(value = "Login a player", notes = "asdasd")
+    @ApiOperation(value = "Player login", notes = "Login a player")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Player.class),
-            @ApiResponse(code = 404, message = "Player not found"),
-            @ApiResponse(code = 405, message = "Password not match")
+            @ApiResponse(code = 404, message = "Player not registered"),
+            @ApiResponse(code = 401, message = "Password not match")
     })
     @Path("/player/login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response loginPlayer(Login login) throws PlayerNotResgisteredException, IncorrectCredentialsException {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response loginPlayer(Login login) throws PlayerNotResgisteredException, PasswordNotMatchException{
         try{
-            logger.info(login.getUsername());
-            String nameplayer = this.tm.loginPlayer(login);
-
-            return Response.status(201).entity(nameplayer).build();
-        }
-        catch (IncorrectCredentialsException | SQLException E){
-            return Response.status(409).build();
+            Player player = this.tm.loginPlayer(login);
+            return Response.status(201).entity(player).build();
+        } catch (PlayerNotResgisteredException e){
+            return Response.status(404).build();
+        } catch (PasswordNotMatchException e){
+            return Response.status(401).build();
         }
     }
 
+    @GET
+    @ApiOperation(value = "Get all items", notes = "Get all items from the shop")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
+            @ApiResponse(code = 404, message = "No items found")
+    })
+    @Path("/items/shop")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getItems(){
+        try{
+            List<Item> items = this.tm.ShopTrappy();
+            GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(items) {};
+            return Response.status(201).entity(entity).build();
+        } catch (Exception e){
+            return Response.status(404).build();
+        }
+    }
     @PUT
-    @ApiOperation(value = "Buy an item from the shop", notes = "Buy items")
+    @ApiOperation(value = "Buy an item", notes = "Buy an item from the shop")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful"),
-            @ApiResponse(code = 403, message = "Not enough money"),
-            @ApiResponse(code = 409, message = "Player doesn't exist"),
-            @ApiResponse(code = 401, message = "Item does not exist")
+            @ApiResponse(code = 201, message = "Successful", response = Player.class),
+            @ApiResponse(code = 404, message = "Player not found"),
+            @ApiResponse(code = 401, message = "No coins for buy"),
+            @ApiResponse(code = 500, message = "Validation Error")
     })
-    @Path("/items/purchase/{idItem}/{idPlayer}")
-    public Response purchaseItem(@PathParam("idItem")String idItem, @PathParam("idPlayer") String idPlayer) {
-        try {
-            this.tm.purchaseItem(idItem, idPlayer);
-            return Response.status(201).build();
-        }
-        catch (NoCoinsForBuyException e) {
-            return Response.status(403).build();
-        }
-        catch (ItemDoesNotExist e) {
-            return Response.status(401).build();
-        }
-        catch (PlayerNotResgisteredException | SQLException e) {
-            return Response.status(409).build();
-        }
-    }
-    //Add a item to the shop
-    @POST
-    @ApiOperation(value = "create a new Item", notes = "Do you want to create a new Item?")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response= Item.class),
-            @ApiResponse(code = 500, message = "Some parameter is null or not valid")
-    })
-    @Path("/items/addItem")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response addItem(Item newItem){
-        if (newItem.getId()==null || newItem.getPrice()<0 || newItem.getDescription()==null || newItem.getName()==null || newItem.getType()==null )  return Response.status(500).entity(newItem).build();
-        try {
-            this.tm.addItem(newItem.getId(),newItem.getDescription(),newItem.getName(),newItem.getType(),newItem.getPrice());
-        } catch (SQLException | ItemWithSameIdAlreadyExists e) {
-            throw new RuntimeException(e);
-        }
-        return Response.status(201).entity(newItem).build();
-    }
-
-    //Returns an Item by an ID
-    @GET
-    @ApiOperation(value = "Gives an Item by id", notes = "With an id")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Item.class),
-            @ApiResponse(code = 404, message = "Gadget does not exist")
-    })
-    @Path("/items/{idItem}")
+    @Path("/buyItems/{idPlayer}/{idItem}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getGadget(@PathParam("idItem") String idItem) {
-        try {
-            Item item = (Item) this.tm.getItem(idItem);
-            return Response.status(201).entity(item).build();
-        }
-        catch (ItemDoesNotExist E){
-            return Response.status(404).build();
-        }
-    }
-
-    //Deletes an Item by an ID
-    @DELETE
-    @ApiOperation(value = "Deletes a item", notes = "Deletes a item")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful"),
-            @ApiResponse(code = 404, message = "Item not found")
-    })
-    @Path("/items/delete/{idItem}")
-    public Response deleteItem(@PathParam("idItem") String id) {
+    public Response buyItem(@PathParam("idPlayer") String idPlayer, @PathParam("idItem") String idItem) throws NoCoinsForBuyException, SQLException, NoExistenItemException{
         try{
-            this.tm.deleteItem(id);
+            this.pm.buyItem(idPlayer, idItem);
+            logger.info("Item bought");
             return Response.status(201).build();
-        }
-        catch (ItemDoesNotExist e) {
+        } catch (NoCoinsForBuyException e){
+            logger.error("No coins for buy");
             return Response.status(401).build();
+        } catch (SQLException e){
+            logger.error("SQL Exception");
+            return Response.status(500).build();
         }
     }
-    //Gives shop items
-    @GET
-    @ApiOperation(value = "Gives the shop items", notes = "ordered by price")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List")
-    })
-    @Path("/item/all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getItems() {
-
-        List<Item> itemList = this.tm.itemList();
-        GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(itemList) {};
-        return Response.status(201).entity(entity).build();
-    }
-    //Returns the list of the players
-    @GET
-    @ApiOperation(value = "Gives the players", notes = "Player list")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Player.class, responseContainer="List")
-    })
-    @Path("/player")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPlayers() {
-        logger.info("Arrived to the service");
-        List<Player> listPlayers= new ArrayList<>(this.tm.getPlayers().values());
-        GenericEntity<List<Player>> entity = new GenericEntity<List<Player>>(listPlayers) {};
-        return Response.status(201).entity(entity).build();
-    }
-    //Gets an item by the id
-    @GET
-    @ApiOperation(value = "Gives a Item by id", notes = "With an id")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Item.class),
-            @ApiResponse(code = 404, message = "Gadget does not exist")
-    })
-    @Path("/items/{idItem}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getItem(@PathParam("idItem") String id) {
-        try {
-            Item item = (Item) this.tm.getItem(id);
-            return Response.status(201).entity(item).build();
-        }
-        catch (ItemDoesNotExist E){
-            return Response.status(404).build();
-        }
-    }
-    //Player by id
-    @GET
-    @ApiOperation(value = "Gives a User by id", notes = "With an id")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = UserInformation.class),
-            @ApiResponse(code = 404, message = "User does not exist")
-    })
-    @Path("/player/{idPlayer}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPlayer(@PathParam("idPlayer") String id) {
-        try {
-            Player player = this.tm.getPlayer(id);
-            UserInformation info = new UserInformation(player.getUsername(), player.getPassword(), player.getTelephoneNumber(), player.getEmail());
-            return Response.status(201).entity(info).build();
-        }
-        catch (PlayerNotResgisteredException E){
-            return Response.status(404).build();
-        }
-    }
-
 }
 
 

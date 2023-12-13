@@ -5,27 +5,16 @@ import edu.upc.dsa.models.Player;
 import edu.upc.dsa.models.Item;
 import edu.upc.dsa.models.Login;
 
+
 import java.sql.SQLException;
 import java.util.List;
 
 public interface PlayerManager {
-
-    public int addPlayer(Player p);
-    public Player getPlayer(String name);
-
+    public int addPlayer(String idPlayer, String username, String password, String telephoneNumber, String email);
+    public Player getPlayer(String idPlayer);
+    public void deletePlayer(String idPlayer);
     public List<Player> getPlayers();
-
-    Player registerPlayer(Player p) throws UsernameInUseException;
-
-    Player loginPlayer(Login l) throws PlayerNotResgisteredException, PasswordNotMatchException;
-
-    Player searchPlayerUsernameAndPassword(String username, String password);
-
-    public List<Item> getItems();
-
-   int size();
-
-   int logNumber();
-
-   int playerNumber();
+    public List<Item> getItemsFromPlayer();
+    public void buyItem(String idPlayer, String idItem) throws NoCoinsForBuyException, SQLException, NoExistenItemException;
+    Player getPlayerByUsername(String username);
 }

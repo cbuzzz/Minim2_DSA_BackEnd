@@ -1,5 +1,6 @@
 package edu.upc.dsa.models;
 import edu.upc.dsa.exceptions.NoCoinsForBuyException;
+import edu.upc.dsa.CRUD.util.RandomUtils;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -12,25 +13,23 @@ public class Player {
     private String password;
     private String telephoneNumber;
     private String email;
-
-    //private int level;
-    private double coins;
-    //private List<Item> Inventario = new ArrayList<>();
+    private int coins;
 
     public Player() {
-
     }
 
-    public Player(String username, String password, String telephoneNumber, String email) {
+    public Player(String id, String username, String password, String telephoneNumber, String email, int coins) {
         this();
-        this.setUsername(username);
-        this.setPassword(password);
-        this.setTelephoneNumber(telephoneNumber);
-        this.setEmail(email);
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.telephoneNumber = telephoneNumber;
+        this.email = email;
+        this.coins = 500;
     }
 
     public String getId() {
-       return id;
+        return id;
     }
 
     public String getUsername() {
@@ -49,17 +48,13 @@ public class Player {
         return email;
     }
 
-    //public int getLevel() {
-    //    return level;
-    //}
-
-    public double getCoins() {
+    public int getCoins() {
         return coins;
-     }
+    }
 
-    //public void setId(String id) {
-    //    this.id=id;
-    //}
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setUsername(String username) {
         this.username=username;
@@ -77,26 +72,15 @@ public class Player {
         this.email=email;
     }
 
-    public void purchaseItem(Item item) throws NoCoinsForBuyException {
-        if(item.getPrice()>this.coins){
-            throw new NoCoinsForBuyException();
-        }
-        this.coins = this.coins - item.getPrice();
+    public void setCoins(int coins) {
+        this.coins=coins;
     }
 
-    //public void setLevel(int level) {
-    //    this.level=level;
-    //}
-
-    //public void setCoins(double coins) {
-    //    this.coins=coins;
-    //}
-
-    //public List<Item> getInventario() {
-    //    return Inventario;
-    //}
-
-    //public void setInventario(List<Item> inventario) {
-    //    Inventario = inventario;
-    //}
+    public void purchaseItem(Item item) throws NoCoinsForBuyException {
+        if (this.coins >= item.getPrice()) {
+            this.coins -= item.getPrice();
+        } else {
+            throw new NoCoinsForBuyException();
+        }
+    }
 }
