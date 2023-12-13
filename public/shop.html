@@ -43,8 +43,8 @@
 
             console.log(dataBody);
 
-            var URL = "http://localhost:8080/dsaApp/items/purchaseItem";
-            $.post({
+            var URL = "http://localhost:8080/dsaApp/items/purchase";
+            $.put({
                 url: URL,
                 data: JSON.stringify(dataBody),
                 contentType: 'application/json; charset=utf-8'

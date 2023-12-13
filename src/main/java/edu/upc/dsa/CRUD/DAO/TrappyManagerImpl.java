@@ -2,8 +2,8 @@ package edu.upc.dsa.CRUD.DAO;
 
 import edu.upc.dsa.exceptions.*;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.ArrayList;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import edu.upc.dsa.CRUD.MYSQL.FactorySession;
 import edu.upc.dsa.CRUD.MYSQL.Session;
@@ -34,19 +34,25 @@ public class TrappyManagerImpl implements TrappyManager {
         logger.info("Number of players");
         return this.session.findAll(Player.class).size();
     }
+    @Override
+    public int numItems() {
+        return this.session.findAll(Item.class).size();
+    }
+
+
     //Register's a player into the system
     @Override
-    public void registerPlayer(String username, String password, String telephoneNumber, String email) throws EmailInUseException,SQLException {
+    public void registerPlayer(String username, String password, String telephoneNumber, String email) throws UsernameInUseException,SQLException {
         logger.info("Register a player");
         Player player = new Player(username, password, telephoneNumber, email);
         try{
-            player = (Player) this.session.get(Player.class,"email",email);
+            player = (Player) this.session.get(Player.class,"username",username);
         } catch(SQLException e){
             this.session.save(player);
             logger.info("Player has been added correctly"+player.getUsername());
         }
-        logger.info("User not registered, email already in use");
-        throw new EmailInUseException();
+        logger.info("User not registered, username already in use");
+        throw new UsernameInUseException();
     }
 
     //Log-in's a player into the system
@@ -65,6 +71,46 @@ public class TrappyManagerImpl implements TrappyManager {
         logger.info("Login was incorrect!");
         throw new IncorrectCredentialsException();
     }
+
+    @Override
+    public Map<String, Player> getPlayers() {
+        logger.info("Getting all players...");
+        List<Object> usersList= this.session.findAll(Player.class);
+        HashMap<String, Player> users = new HashMap<>();
+        for(int i = 0; i < usersList.size(); i++) {
+            Player player = (Player) usersList.get(i);
+            users.put(player.getId(), player);
+        }
+        logger.info("User list has been created correctly its size is: "+usersList.size());
+        return users;
+    }
+
+    @Override
+    public Player getPlayer(String idPlayer) throws PlayerNotResgisteredException {
+        logger.info("Getting player with id: "+idPlayer);
+        try {
+            Player player = (Player) this.session.get(Player.class, "id", (idPlayer));
+            return player;
+        } catch(SQLException e) {
+            logger.warn("Player does not exist EXCEPTION");
+            throw new PlayerNotResgisteredException();
+        }
+    }
+
+    @Override
+    public List<Item> itemList() {
+        logger.info("Getting all items...");
+        List<Object> items = this.session.findAll(Item.class);
+        List<Item> res = new ArrayList<>();
+        for (Object o : items){
+            res.add((Item) o);
+        }
+        logger.info("The list of items has a size of "+res.size());
+        return res;
+    }
+
+
+
     //Updates a player's information
     @Override
     public void updatePlayer(UserInformation newuser, String idUser) throws SQLException {
@@ -87,6 +133,8 @@ public class TrappyManagerImpl implements TrappyManager {
             logger.warn("Invalid Email");
         }
     }
+
+
     //Purchase an item from the shop
     @Override
     public void purchaseItem(String idItem, String idPlayer) throws ItemDoesNotExist,NoCoinsForBuyException, PlayerNotResgisteredException, SQLException {
@@ -122,6 +170,8 @@ public class TrappyManagerImpl implements TrappyManager {
         logger.info("Item cannot be added because this id is already been used :(");
         throw new ItemWithSameIdAlreadyExists();
     }
+
+
     //Returns an item by its ID
     @Override
     public Item getItem(String idItem) throws ItemDoesNotExist{
@@ -133,6 +183,7 @@ public class TrappyManagerImpl implements TrappyManager {
             throw new ItemDoesNotExist();
         }
     }
+
     //Deletes an item by its ID
     @Override
     public Item deleteItem(String idItem) throws ItemDoesNotExist {
@@ -145,6 +196,8 @@ public class TrappyManagerImpl implements TrappyManager {
             throw new ItemDoesNotExist();
         }
     }
+
+
 
 
 

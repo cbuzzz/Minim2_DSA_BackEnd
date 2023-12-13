@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Player {
 
-    //private String id;
+    private String id;
     private String username;
     private String password;
     private String telephoneNumber;
@@ -29,9 +29,9 @@ public class Player {
         this.setEmail(email);
     }
 
-    //public String getId() {
-    //    return id;
-    //}
+    public String getId() {
+       return id;
+    }
 
     public String getUsername() {
         return username;
@@ -76,11 +76,11 @@ public class Player {
     public void setEmail(String email) {
         this.email=email;
     }
+
     public void purchaseItem(Item item) throws NoCoinsForBuyException {
         if(item.getPrice()>this.coins){
             throw new NoCoinsForBuyException();
         }
-
         this.coins = this.coins - item.getPrice();
     }
 

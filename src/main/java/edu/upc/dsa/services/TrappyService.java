@@ -9,6 +9,7 @@ import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
@@ -51,8 +52,8 @@ public class TrappyService {
     })
     @Path("/player/register")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response registerPlayer(Player player) throws UsernameInUseException, SQLException, EmailInUseException {
-        if (player.getUsername() == null || player.getPassword() == null || player.getTelephoneNumber() == null || player.getEmail() == null )  return Response.status(500).entity(player).build();
+    public Response registerPlayer(Player player) throws UsernameInUseException, SQLException {
+        if (player.getUsername() == "" || player.getPassword() == "" || player.getTelephoneNumber() == "" || player.getEmail() == "" )  return Response.status(100).entity(player).build();
         try {
             this.tm.registerPlayer(player.getUsername(),player.getPassword(),player.getTelephoneNumber(), player.getEmail());
             return Response.status(201).entity(player).build();
@@ -117,7 +118,7 @@ public class TrappyService {
     })
     @Path("/items/addItem")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response newItem(Item newItem){
+    public Response addItem(Item newItem){
         if (newItem.getId()==null || newItem.getPrice()<0 || newItem.getDescription()==null || newItem.getName()==null || newItem.getType()==null )  return Response.status(500).entity(newItem).build();
         try {
             this.tm.addItem(newItem.getId(),newItem.getDescription(),newItem.getName(),newItem.getType(),newItem.getPrice());
@@ -163,6 +164,72 @@ public class TrappyService {
             return Response.status(401).build();
         }
     }
+    //Gives shop items
+    @GET
+    @ApiOperation(value = "Gives the shop items", notes = "ordered by price")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List")
+    })
+    @Path("/item/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getItems() {
+
+        List<Item> itemList = this.tm.itemList();
+        GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(itemList) {};
+        return Response.status(201).entity(entity).build();
+    }
+    //Returns the list of the players
+    @GET
+    @ApiOperation(value = "Gives the players", notes = "Player list")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Player.class, responseContainer="List")
+    })
+    @Path("/player")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPlayers() {
+        logger.info("Arrived to the service");
+        List<Player> listPlayers= new ArrayList<>(this.tm.getPlayers().values());
+        GenericEntity<List<Player>> entity = new GenericEntity<List<Player>>(listPlayers) {};
+        return Response.status(201).entity(entity).build();
+    }
+    //Gets an item by the id
+    @GET
+    @ApiOperation(value = "Gives a Item by id", notes = "With an id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Item.class),
+            @ApiResponse(code = 404, message = "Gadget does not exist")
+    })
+    @Path("/items/{idItem}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getItem(@PathParam("idItem") String id) {
+        try {
+            Item item = (Item) this.tm.getItem(id);
+            return Response.status(201).entity(item).build();
+        }
+        catch (ItemDoesNotExist E){
+            return Response.status(404).build();
+        }
+    }
+    //Player by id
+    @GET
+    @ApiOperation(value = "Gives a User by id", notes = "With an id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = UserInformation.class),
+            @ApiResponse(code = 404, message = "User does not exist")
+    })
+    @Path("/player/{idPlayer}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPlayer(@PathParam("idPlayer") String id) {
+        try {
+            Player player = this.tm.getPlayer(id);
+            UserInformation info = new UserInformation(player.getUsername(), player.getPassword(), player.getTelephoneNumber(), player.getEmail());
+            return Response.status(201).entity(info).build();
+        }
+        catch (PlayerNotResgisteredException E){
+            return Response.status(404).build();
+        }
+    }
+
 }
 
 

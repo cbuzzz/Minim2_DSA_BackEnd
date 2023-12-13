@@ -1,3 +1,4 @@
+/*
 package edu.upc.dsa.CRUD.DAO;
 
 import edu.upc.dsa.exceptions.*;
@@ -107,3 +108,6 @@ public class PlayerManagerImpl implements PlayerManager {
         return this.logins.size();
     }
 }
+
+
+ */
