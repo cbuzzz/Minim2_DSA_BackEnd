@@ -74,7 +74,7 @@ public class PlayerManagerImpl implements PlayerManager{
         List<Player> players = null;
         try {
             session = FactorySession.openSession();
-            players = session.findAll(Player.class);
+           // players = session.findAll(Player.class);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -88,7 +88,7 @@ public class PlayerManagerImpl implements PlayerManager{
         List<Item> items = null;
         try {
             session = FactorySession.openSession();
-            items = session.findAll(Item.class);
+        //    items = session.findAll(Item.class);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

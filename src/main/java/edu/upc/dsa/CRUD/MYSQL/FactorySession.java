@@ -19,7 +19,7 @@ public class FactorySession {
         Connection conn = null;
         try {
             // AQUESTA URL ES LA BONA???
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?" + "user=root&password=projecteG2");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/trappy?" + "user=root&password=mariadbtrappy");
             System.out.println("Connection established");
         } catch (SQLException ex) {
             // handle any errors

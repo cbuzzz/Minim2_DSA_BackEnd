@@ -65,12 +65,12 @@ public class TrappyService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response loginPlayer(Login login) throws PlayerNotResgisteredException, PasswordNotMatchException{
         try{
-            Player player = this.tm.loginPlayer(login);
+            Player player = this.tm.loginPlayer(new Login(login.getUsername(), login.getPassword()));
             return Response.status(201).entity(player).build();
-        } catch (PlayerNotResgisteredException e){
+        } catch (PlayerNotResgisteredException e) {
             return Response.status(404).build();
-        } catch (PasswordNotMatchException e){
-            return Response.status(401).build();
+        } catch (PasswordNotMatchException e) {
+            return Response.status(405).build();
         }
     }
 

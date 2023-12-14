@@ -26,7 +26,7 @@ public class TrappyManagerImpl implements TrappyManager {
     protected List<Player> players;
     protected List<Player> playerslogged;
 
-    private TrappyManagerImpl() {
+    public TrappyManagerImpl() {
         this.trappyplayersMap = new HashMap<>();
         this.items = new LinkedList<>();
         this.players = new LinkedList<>();
@@ -80,7 +80,7 @@ public class TrappyManagerImpl implements TrappyManager {
             logger.info("Player registered");
             return p;
         }else{
-            logger.info("Username or email already in use");
+            logger.info("Username already in use");
             throw new UsernameInUseException();
         }
     }

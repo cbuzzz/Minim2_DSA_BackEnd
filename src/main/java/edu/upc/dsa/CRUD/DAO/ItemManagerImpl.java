@@ -46,7 +46,7 @@ public class ItemManagerImpl implements ItemManager {
         List<Item> items = null;
         try{
             session = FactorySession.openSession();
-            items = session.findAll(Item.class);
+           // items = session.findAll(Item.class);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
