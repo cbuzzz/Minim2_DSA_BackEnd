@@ -133,4 +133,20 @@ public class PlayerManagerImpl implements PlayerManager{
         }
         return player;
     }
+
+    public void denunciar(Denuncia denuncia){
+        Session session = null;
+        int res = 0;
+        try {
+            session = FactorySession.openSession();
+
+            session.save(denuncia);
+            logger.info("Denuncia recibida");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
 }

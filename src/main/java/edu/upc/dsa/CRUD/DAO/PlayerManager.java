@@ -1,6 +1,7 @@
 package edu.upc.dsa.CRUD.DAO;
 
 import edu.upc.dsa.exceptions.*;
+import edu.upc.dsa.models.Denuncia;
 import edu.upc.dsa.models.Player;
 import edu.upc.dsa.models.Item;
 import edu.upc.dsa.models.Login;
@@ -17,4 +18,5 @@ public interface PlayerManager {
     public List<Item> getItemsFromPlayer();
     public void buyItem(String idPlayer, String idItem) throws NoCoinsForBuyException, SQLException, NoExistenItemException;
     Player getPlayerByUsername(String username);
+    public void denunciar(Denuncia denuncia);
 }

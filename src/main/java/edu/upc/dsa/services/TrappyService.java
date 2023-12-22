@@ -114,6 +114,27 @@ public class TrappyService {
             return Response.status(500).build();
         }
     }
+
+    @PUT
+    @ApiOperation(value = "Recibir denuncia", notes = "Recibir denuncia de usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Player.class),
+            @ApiResponse(code = 404, message = "Player not found"),
+            @ApiResponse(code = 401, message = "No coins for buy"),
+            @ApiResponse(code = 500, message = "Validation Error")
+    })
+    @Path("/player/issue")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response denunciar(Denuncia denuncia) {
+        try{
+            this.pm.denunciar(denuncia);
+            logger.info("Denuncia recibida");
+            return Response.status(201).build();
+        } catch (Exception e){
+            logger.error("Error");
+            return Response.status(404).build();
+        }
+    }
 }
 
 
